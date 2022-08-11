@@ -53,7 +53,7 @@ jobs:
               with:
                   find: "# Error log\n\t\tprint"
                   replace: "# Error log\n\t\tapp.logger.error("
-                  include: "build/server/server.py"
+                  include: "build/server/log.py"
                   "regex": true
 
             - name: Update info logging in the build server
@@ -61,7 +61,7 @@ jobs:
               with:
                   find: "# Info log\n\t\tprint"
                   replace: "# Info log\n\t\tapp.logger.info("
-                  include: "build/server/server.py"
+                  include: "build/server/log.py"
                   "regex": true
 
             - name: Push to the build branch
