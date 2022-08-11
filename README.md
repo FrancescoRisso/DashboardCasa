@@ -64,6 +64,8 @@ pip3 install flask
 sudo apt install gunicorn
 sudo mkdir /var/log/dashboardCasa
 sudo touch /var/log/dashboardCasa/log.log /var/log/dashboardCasa/error.log
+sudo chmod a+w /var/log/dashboardCasa/*
+pip3 install -r DashboardCasa/requirements.txt
 ```
 
 It is the web server that will serve the data (the server.py file)
@@ -77,9 +79,9 @@ Description=Dashboard casa server
 After=network.target
 
 [Service]
-User=[yourUbuntuUsername]
-WorkingDirectory=[fullPathToTheWebserver]
-ExecStart=gunicorn -b 127.0.0.1:[port] -w [n (see below)] --access-logfile "/var/log/dashboardCasa/log.log" --error-logfile "/var/log/dashboardCasa/error.log" api:app
+User=<yourUbuntuUsername>
+WorkingDirectory=<fullPathToTheServerFolder>
+ExecStart=gunicorn -b 127.0.0.1:<port> -w <n (see below)> --access-logfile "/var/log/dashboardCasa/log.log" --error-logfile "/var/log/dashboardCasa/error.log" server:app
 Restart=always
 
 [Install]
@@ -87,7 +89,7 @@ WantedBy=multi-user.target
 EOT
 ```
 
-Please replace the [] brackets with the correct value.
+Please replace the <> brackets with the correct value.
 
 n is the number of workers (parallel processes): it is suggested to have a number of workers of 1 + 2\*number of cores.
 
