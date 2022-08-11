@@ -65,7 +65,7 @@ sudo apt install gunicorn
 sudo mkdir /var/log/dashboardCasa
 sudo touch /var/log/dashboardCasa/log.log /var/log/dashboardCasa/error.log
 sudo chmod a+w /var/log/dashboardCasa/*
-pip3 install -r DashboardCasa/requirements.txt
+pip3 install -r ./DashboardCasa/server/requirements.txt
 ```
 
 It is the web server that will serve the data (the server.py file)

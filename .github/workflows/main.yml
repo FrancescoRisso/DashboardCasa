@@ -34,7 +34,8 @@ jobs:
             - name: Create server folder inside the build folder
               run: mkdir build/server/
 
-            - name: Copy server to the build folder
+            - id: serverCopy
+              name: Copy server to the build folder
               uses: canastro/copy-file-action@master
               with:
                   source: "server/*"
@@ -42,9 +43,28 @@ jobs:
 
             - name: Remove "app.run(...)" from the build server
               uses: jacobtomlinson/gha-find-replace@v2
+              need: serverCopy
               with:
                   find: "\napp\\.run\\([^)]*\\)"
                   replace: "\n"
+                  include: "build/server/server.py"
+                  "regex": true
+
+            - name: Update error logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              need: serverCopy
+              with:
+                  find: "# Error log\n\t\tprint"
+                  replace: "# Error log\n\t\tapp.logger.error("
+                  include: "build/server/server.py"
+                  "regex": true
+
+            - name: Update info logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              need: serverCopy
+              with:
+                  find: "# Info log\n\t\tprint"
+                  replace: "# Info log\n\t\tapp.logger.info("
                   include: "build/server/server.py"
                   "regex": true
 

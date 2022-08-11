@@ -3,6 +3,10 @@
 #SQLsettings.json for privacy
 SQLsettings.json
 
+# __pycache__
+/__pycache__
+/server/__pycache__
+
 # dependencies
 /node_modules
 /.pnp
