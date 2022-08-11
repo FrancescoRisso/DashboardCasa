@@ -54,6 +54,7 @@ jobs:
                   find: "# Error log\n\t\tprint("
                   replace: "# Error log\n\t\tapp.logger.error("
                   include: "build/server/log.py"
+                  "regex": false
 
             - name: Update info logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
@@ -61,6 +62,7 @@ jobs:
                   find: "# Info log\n\t\tprint("
                   replace: "# Info log\n\t\tapp.logger.info("
                   include: "build/server/log.py"
+                  "regex": false
 
             - name: Push to the build branch
               uses: s0/git-publish-subdir-action@develop
