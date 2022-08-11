@@ -4,7 +4,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from urllib.request import Request, urlopen
 from lxml import etree
-from flask import Flask, Response
+from flask import Flask, Response, request
+from log import printLog
+
+import logging
+
+log = logging.getLogger("werkzeug")
+log.setLevel(logging.ERROR)
 
 
 DAYS = 4
@@ -15,7 +21,7 @@ try:
 	with open("SQLsettings.json") as f:
 		pass
 except Exception:
-	print("SQLsettings.json is missing")
+	printLog(app, "Err", None, "SQLsettings.json is missing: aborting")
 	quit(-1)
 
 mainRooms = [
@@ -29,7 +35,7 @@ mainRooms = [
 
 @app.route("/api/weatherNow")
 def weatherNow():
-	print("Serving current weather")
+	printLog(app, "Info", request, "Serving current weather")
 
 	try:
 		page = urlopen(
@@ -46,13 +52,13 @@ def weatherNow():
 		return json.dumps({"icon": svg, "temperature": temp})
 
 	except Exception as e:
-		print(e)
+		printLog(app, "Err", None, f"Error while serving current weather: {e}")
 		return json.dumps("Error")
 
 
 @app.route("/api/weatherForecast")
 def weatherForecast():
-	print("Serving weather forecast")
+	printLog(app, "Info", request, "Serving weather forecasts")
 	try:
 		page = urlopen(
 			"https://weather.com/it-IT/weather/today/l/e256c2aae80f726e762e14af45d2afe36111106461810a2161276ae9c564f200"
@@ -87,19 +93,19 @@ def weatherForecast():
 		return Response(json.dumps(forecasts), mimetype="application/json")
 
 	except Exception as e:
-		print(e)
+		printLog(app, "Err", None, f"Error while serving weather forecasts: {e}")
 		return json.dumps("Error")
 
 
 @app.route("/api/tempInterna")
 def tempInterna():
-	print("Serving internal temperatures")
+	printLog(app, "Info", request, "Serving internal temperatures")
 	return temperatures(True)
 
 
 @app.route("/api/tempEsterna")
 def tempEsterna():
-	print("Serving external temperatures")
+	printLog(app, "Info", request, "Serving external temperatures")
 	return temperatures(False)
 
 
@@ -112,10 +118,20 @@ def temperatures(internal):
 			f"{settings['dialect']}://{settings['username']}:{settings['password']}@{settings['host']}/{settings['dbname']}"
 		)
 	except SQLAlchemyError as e:
-		print(f"\nDATABASE ERROR\n{e.__dict__['orig']}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'internal' if internal else 'external'} temperatures: {e.__dict__['orig']}",
+		)
 		return json.dumps("Error")
 	except Exception as e:
-		print(f"\nERROR\n{e}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'internal' if internal else 'external'} temperatures: {e}",
+		)
 		return json.dumps("Error")
 
 	try:
@@ -131,10 +147,20 @@ def temperatures(internal):
 			for i in range(len(res))
 		]
 	except SQLAlchemyError as e:
-		print(f"\nDATABASE ERROR\n{e.__dict__['orig']}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while querying the database while serving {'internal' if internal else 'external'} temperatures: {e.__dict__['orig']}",
+		)
 		return json.dumps("Error")
 	except Exception as e:
-		print(f"\nERROR\n{e}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while querying the database while serving {'internal' if internal else 'external'} temperatures: {e}",
+		)
 		return json.dumps("Error")
 
 	return json.dumps(res)
@@ -142,13 +168,13 @@ def temperatures(internal):
 
 @app.route("/api/Raffrescamento")
 def raffrescamento():
-	print("Serving cooling data")
+	printLog(app, "Info", request, "Serving cooling data")
 	return circolazioneAcqua(False)
 
 
 @app.route("/api/Riscaldamento")
 def riscaldamento():
-	print("Serving heating data")
+	printLog(app, "Info", request, "Serving heating data")
 	return circolazioneAcqua(True)
 
 
@@ -161,10 +187,20 @@ def circolazioneAcqua(calda):
 			f"{settings['dialect']}://{settings['username']}:{settings['password']}@{settings['host']}/{settings['dbname']}"
 		)
 	except SQLAlchemyError as e:
-		print(f"\nDATABASE ERROR\n{e.__dict__['orig']}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'heating' if calda else 'cooling'} data: {e.__dict__['orig']}",
+		)
 		return json.dumps("Error")
 	except Exception as e:
-		print(f"\nERROR\n{e}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'heating' if calda else 'cooling'} data: {e}",
+		)
 		return json.dumps("Error")
 
 	try:
@@ -193,10 +229,20 @@ def circolazioneAcqua(calda):
 		res.insert(0, somethingOn)
 
 	except SQLAlchemyError as e:
-		print(f"\nDATABASE ERROR\n{e.__dict__['orig']}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'heating' if calda else 'cooling'} data: {e.__dict__['orig']}",
+		)
 		return json.dumps("Error")
 	except Exception as e:
-		print(f"\nERROR\n{e}\n")
+		printLog(
+			app,
+			"Err",
+			None,
+			f"Error while connecting to the database while serving {'heating' if calda else 'cooling'} data: {e}",
+		)
 		return json.dumps("Error")
 
 	return json.dumps(res)
@@ -204,7 +250,7 @@ def circolazioneAcqua(calda):
 
 @app.route("/api/consumptions")
 def consumptions():
-	print("Serving consumptions data")
+	printLog(app, "Info", request, "Serving consumptions data")
 
 	downstairsName = "Seminterrato"
 	wallBoxName = "Wallbox"
@@ -243,7 +289,7 @@ def consumptions():
 		return json.dumps(res)
 
 	except Exception as e:
-		print("Error in serving consumptions data:", e)
+		printLog(app, "Err", None, f"Error in serving consumptions data: {e}")
 		return "Error"
 
 
