@@ -51,7 +51,7 @@ jobs:
             - name: Update error logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
               with:
-                  find: "# Error log\n\t\tprint"
+                  find: "# Error log\n\t\tprint("
                   replace: "# Error log\n\t\tapp.logger.error("
                   include: "build/server/log.py"
                   "regex": true
@@ -59,7 +59,7 @@ jobs:
             - name: Update info logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
               with:
-                  find: "# Info log\n\t\tprint"
+                  find: "# Info log\n\t\tprint("
                   replace: "# Info log\n\t\tapp.logger.info("
                   include: "build/server/log.py"
                   "regex": true
