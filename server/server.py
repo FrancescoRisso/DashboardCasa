@@ -293,4 +293,9 @@ def consumptions():
 		return "Error"
 
 
-app.run(port=3001)
+if __name__ == "main":
+	app.run(port=3001)
+else:
+	gunicorn_logger = logging.getLogger("gunicorn.error")
+	app.logger.handlers = gunicorn_logger.handlers
+	app.logger.setLevel(gunicorn_logger.level)

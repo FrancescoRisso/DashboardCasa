@@ -51,16 +51,16 @@ jobs:
             - name: Update error logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
               with:
-                  find: "# Error log\n\t\tprint("
-                  replace: "# Error log\n\t\tapp.logger.error("
+                  find: "print(f\"{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} [ERR ] "
+                  replace: "app.logger.error(f\""
                   include: "build/server/log.py"
                   "regex": false
 
             - name: Update info logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
               with:
-                  find: "# Info log\n\t\tprint("
-                  replace: "# Info log\n\t\tapp.logger.info("
+                  find: "print(f\"{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} [INFO] "
+                  replace: "app.logger.info(f\""
                   include: "build/server/log.py"
                   "regex": false
 

@@ -57,15 +57,21 @@ Link the file you created to the `./sites-enable` folder using
 
 Reload the service with `sudo systemctl reload nginx`
 
+Check your network interface name with `ip addr` (such as eth0 or ens31)
+
+Allow external traffic to reach port 80 via `sudo ufw allow in on <interfaceName> to any port 80`
+
 ## Setup gunicorn
 
 ```
 pip3 install flask
-sudo apt install gunicorn
+sudo apt install gunicorn mysql-client python3-dev libmysqlclient-dev
 sudo mkdir /var/log/dashboardCasa
-sudo touch /var/log/dashboardCasa/log.log /var/log/dashboardCasa/error.log
-sudo chmod a+w /var/log/dashboardCasa/*
+sudo touch /var/log/dashboardCasa/log.log
+sudo chmod a+w /var/log/dashboardCasa/log.log
 pip3 install -r ./DashboardCasa/server/requirements.txt
+pip3 install mysql-connector-python
+pip3 install mysql-python
 ```
 
 It is the web server that will serve the data (the server.py file)
@@ -81,7 +87,7 @@ After=network.target
 [Service]
 User=<yourUbuntuUsername>
 WorkingDirectory=<fullPathToTheServerFolder>
-ExecStart=gunicorn -b 127.0.0.1:<port> -w <n (see below)> --access-logfile "/var/log/dashboardCasa/log.log" --error-logfile "/var/log/dashboardCasa/error.log" server:app
+ExecStart=gunicorn -b 127.0.0.1:<port> -w <n (see below)> --log-file "/var/log/dashboardCasa/log.log" --log-level info server:app
 Restart=always
 
 [Install]
@@ -95,6 +101,6 @@ n is the number of workers (parallel processes): it is suggested to have a numbe
 
 Reload systemctl with `sudo systemctl daemon-reload`.
 
-Activate your process with `sudo systemctl start [fileName]`.
+Activate your process with `sudo systemctl start dashboardCasa.service`.
 
-If you have to modify the api.js, just remember to run `sudo systemctl reload [fileName]` to reload it.
+If you have to modify the api.js, just remember to run `sudo systemctl reload dashboardCasa.service` to reload it.
