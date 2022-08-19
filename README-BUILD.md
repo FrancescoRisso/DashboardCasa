@@ -64,14 +64,13 @@ Allow external traffic to reach port 80 via `sudo ufw allow in on <interfaceName
 ## Setup gunicorn
 
 ```
-pip3 install flask
 sudo apt install gunicorn mysql-client python3-dev libmysqlclient-dev
 sudo mkdir /var/log/dashboardCasa
 sudo touch /var/log/dashboardCasa/log.log
 sudo chmod a+w /var/log/dashboardCasa/log.log
 pip3 install -r ./DashboardCasa/server/requirements.txt
 pip3 install mysql-connector-python
-pip3 install mysql-python
+pip3 install mysqlclient
 ```
 
 It is the web server that will serve the data (the server.py file)
@@ -86,7 +85,7 @@ After=network.target
 
 [Service]
 User=<yourUbuntuUsername>
-WorkingDirectory=<fullPathToTheServerFolder>
+WorkingDirectory=/home/<user>/DashboardCasa/server
 ExecStart=gunicorn -b 127.0.0.1:<port> -w <n (see below)> --log-file "/var/log/dashboardCasa/log.log" --log-level info server:app
 Restart=always
 
@@ -98,6 +97,8 @@ EOT
 Please replace the <> brackets with the correct value.
 
 n is the number of workers (parallel processes): it is suggested to have a number of workers of 1 + 2\*number of cores.
+
+Create a `SQLsettings.json` file in the server folder containing the credentials for the database. A sample one is already present (`SQLsettings-sample.json`)
 
 Reload systemctl with `sudo systemctl daemon-reload`.
 

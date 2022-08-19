@@ -54,7 +54,7 @@ class IsOnOff extends React.Component {
 			})
 			.catch((err) => {
 				console.log(err);
-				this.setState({ values: "Error" });
+				this.setState({ values: "Error", summary: "Error" });
 			});
 	};
 
@@ -88,7 +88,7 @@ class IsOnOff extends React.Component {
 							<AdaptiveFontSize
 								className="text-center mb-0"
 								text={`${this.props.title}: ${
-									this.state.summary === null
+									this.state.summary === "Error"
 										? "Si è verificato un errore"
 										: this.state.summary
 										? "ON"

@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 try:
 	with open("SQLsettings.json") as f:
-		pass
+		settings = json.load(f)
 except Exception:
 	printLog(app, "Err", None, "SQLsettings.json is missing: aborting")
 	quit(-1)
@@ -110,9 +110,6 @@ def tempEsterna():
 
 
 def temperatures(internal):
-	with open("./SQLsettings.json", "r") as f:
-		settings = json.load(f)
-
 	try:
 		SQLengine = create_engine(
 			f"{settings['dialect']}://{settings['username']}:{settings['password']}@{settings['host']}/{settings['dbname']}"
@@ -179,9 +176,6 @@ def riscaldamento():
 
 
 def circolazioneAcqua(calda):
-	with open("./SQLsettings.json", "r") as f:
-		settings = json.load(f)
-
 	try:
 		SQLengine = create_engine(
 			f"{settings['dialect']}://{settings['username']}:{settings['password']}@{settings['host']}/{settings['dbname']}"
@@ -292,8 +286,7 @@ def consumptions():
 		printLog(app, "Err", None, f"Error in serving consumptions data: {e}")
 		return "Error"
 
-
-if __name__ == "main":
+if __name__ == "__main__":
 	app.run(port=3001)
 else:
 	gunicorn_logger = logging.getLogger("gunicorn.error")

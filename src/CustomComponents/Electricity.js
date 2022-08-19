@@ -93,6 +93,7 @@ class Electricity extends React.Component {
 					padding="pt"
 					title={
 						this.state.values &&
+						this.state.values !== "Error" &&
 						this.state.values.filter((x) => x.label === "Immessa in rete") &&
 						this.state.values.filter((x) => x.label === "Immessa in rete").length > 0 &&
 						this.state.values.filter((x) => x.label === "Immessa in rete")[0].value > 0
