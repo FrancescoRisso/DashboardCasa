@@ -1,0 +1,86 @@
+name: React build and commit to build branch
+
+on:
+    push:
+        branches: ["code"]
+
+jobs:
+    build:
+        name: Build the react app and commit it to the build branch
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v2
+
+            - name: Use Node.js 12.x
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+
+            - name: Install dependencies
+              run: npm install -f
+
+            - name: Generate react build
+              run: npm run build
+              env:
+                  CI: false
+
+            - name: Create .github folder inside the build folder
+              run: mkdir build/.github/
+
+            - name: Create workflows folder inside the build folder
+              run: mkdir build/.github/workflows/
+
+            - name: Copy github actions to the build branch
+              uses: canastro/copy-file-action@master
+              with:
+                  source: .github/workflows/*
+                  target: build/.github/workflows/
+
+            - name: Copy all the build utilities to the build folder
+              uses: canastro/copy-file-action@master
+              with:
+                  source: "build_utilities/*"
+                  target: "build/"
+
+            - name: Create server folder inside the build folder
+              run: mkdir build/server/
+
+            - name: Copy server to the build folder
+              uses: canastro/copy-file-action@master
+              with:
+                  source: "server/*"
+                  target: "build/server/"
+
+            - name: Remove "app.run(...)" from the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: "\napp\\.run\\([^)]*\\)"
+                  replace: "\n"
+                  include: "build/server/server.py"
+                  "regex": true
+
+            - name: Update error logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [ERR ] '
+                  replace: 'app.logger.error(f"'
+                  include: "build/server/log.py"
+                  "regex": false
+
+            - name: Update info logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [INFO] '
+                  replace: 'app.logger.info(f"'
+                  include: "build/server/log.py"
+                  "regex": false
+
+            - name: Push to the build branch
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                  REPO: self
+                  BRANCH: build
+                  FOLDER: build
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+                  MESSAGE: "${{ github.event.head_commit.message }}"
