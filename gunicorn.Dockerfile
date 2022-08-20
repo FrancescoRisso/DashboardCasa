@@ -2,6 +2,9 @@ FROM python:latest
 
 WORKDIR /server
 
+ARG workers=2
+ENV workers=$workers
+
 COPY ./server/ .
 
 RUN apt-get update
@@ -20,4 +23,4 @@ RUN sed -ir 's@with.*@settings = dict(os.environ.items())@' server.py
 
 EXPOSE 8000
 
-CMD gunicorn -b 0.0.0.0:8000 -w 2 --log-level info server:app
+CMD  gunicorn -b 0.0.0.0:8000 -w ${workers} --log-level info server:app

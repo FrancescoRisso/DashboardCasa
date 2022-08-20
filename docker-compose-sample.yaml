@@ -12,6 +12,8 @@ services:
             - password=<db password>
             - host=<db address>
             - dbname=<db name>
+#            - workers=4    # default is 2
+#        dns: 8.8.8.8       # I had to set it because my qnap had problems without it
 
     nginx:
         image: <dockerhubId>/dashboard_casa_nginx:latest
