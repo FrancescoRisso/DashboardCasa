@@ -52,14 +52,6 @@ jobs:
                   source: "server/*"
                   target: "build/server/"
 
-            - name: Remove "app.run(...)" from the build server
-              uses: jacobtomlinson/gha-find-replace@v2
-              with:
-                  find: "\napp\\.run\\([^)]*\\)"
-                  replace: "\n"
-                  include: "build/server/server.py"
-                  "regex": true
-
             - name: Update error logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
               with:
