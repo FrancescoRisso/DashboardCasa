@@ -29,7 +29,7 @@ jobs:
               uses: canastro/copy-file-action@master
               with:
                   source: "build_utilities/*"
-                  target: "build/*"
+                  target: "build/"
 
             - name: Create server folder inside the build folder
               run: mkdir build/server/
