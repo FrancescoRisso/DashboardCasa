@@ -25,6 +25,9 @@ jobs:
               env:
                   CI: false
 
+            - name: Create .github folder inside the build folder
+              run: mkdir build/.github/
+
             - name: Create workflows folder inside the build folder
               run: mkdir build/.github/workflows/
 
