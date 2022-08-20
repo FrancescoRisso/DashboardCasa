@@ -1,6 +1,8 @@
 name: build docker containers and push to Dockerhub
 
 on:
+    push:
+        branches: ["build"]
     workflow_run:
         workflows: ["React build and commit to build branch"]
         types:
@@ -10,6 +12,9 @@ jobs:
     dockerNginx:
         runs-on: ubuntu-latest
         steps:
+            - name: Clone repository
+              uses: actions/checkout@v2
+
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v2
 
@@ -33,6 +38,9 @@ jobs:
     gunicornNginx:
         runs-on: ubuntu-latest
         steps:
+            - name: Clone repository
+              uses: actions/checkout@v2
+              
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v2
 
