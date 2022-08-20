@@ -9,6 +9,21 @@ on:
             - completed
 
 jobs:
+    versionNumber:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get last commit message
+              run: echo ${{ github.event.head_commit.message }} > versionNumber.txt
+
+            - name: Remove the trailing "Version "
+              run: sed -i 's|Version ||' versionNumber.txt
+
+            - name: Remove the comment
+              run: sed -ir 's|\n[.]*||' versionNumber.txt
+            
+            - name: Print result
+              run: more versionNumber.txt
+
     dockerNginx:
         runs-on: ubuntu-latest
         steps:
