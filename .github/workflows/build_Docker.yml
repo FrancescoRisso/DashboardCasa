@@ -1,8 +1,10 @@
 name: build docker containers and push to Dockerhub
 
 on:
-    push:
-        branches: ["build"]
+    workflow_run:
+        workflows: ["React build and commit to build branch"]
+        types:
+            - completed
 
 jobs:
     dockerNginx:
