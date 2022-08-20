@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+    gunicorn:
+        image: <dockerhubId>/dashboard_casa_gunicorn:latest
+        container_name: gunicorn
+        ports:
+            - "8000:8000"
+        environment:
+            - dialect=mysql
+            - username=<db username>
+            - password=<db password>
+            - host=<db address>
+            - dbname=<db name>
+
+    nginx:
+        image: <dockerhubId>/dashboard_casa_nginx:latest
+        container_name: nginx
+        ports:
+            - "80:80"
+        depends_on:
+            - gunicorn

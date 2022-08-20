@@ -6,6 +6,10 @@ This is the build branch, it contains the minimized version which is ready to be
 
 # Deploy
 
+You can deploy the dashboard on a linux server, using the following instructions.
+
+The alternative is to use docker containers, with a docker-compose file such as [docker-compose-sample.yaml](https://github.com/FrancescoRisso/DashboardCasa/blob/build/docker-compose-sample.yaml). Please replace the `<brackets>` with the actual values.
+
 ## Clone repository
 
 `git clone -b build https://github.com/FrancescoRisso/DashboardCasa.git`

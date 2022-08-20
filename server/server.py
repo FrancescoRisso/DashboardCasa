@@ -20,8 +20,10 @@ app = Flask(__name__)
 try:
 	with open("SQLsettings.json") as f:
 		settings = json.load(f)
-except Exception:
-	printLog(app, "Err", None, "SQLsettings.json is missing: aborting")
+	for key in ["dialect", "username", "password", "host", "dbname"]:
+		settings[key]
+except Exception as e:
+	printLog(app, "Err", None, f"SQL settings are missing or incomplete ({e}): aborting")
 	quit(-1)
 
 mainRooms = [
@@ -285,6 +287,7 @@ def consumptions():
 	except Exception as e:
 		printLog(app, "Err", None, f"Error in serving consumptions data: {e}")
 		return "Error"
+
 
 if __name__ == "__main__":
 	app.run(port=3001)

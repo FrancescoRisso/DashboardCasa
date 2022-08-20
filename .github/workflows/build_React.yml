@@ -25,11 +25,11 @@ jobs:
               env:
                   CI: false
 
-            - name: Copy README-BUILD.md to the build folder
+            - name: Copy all the build utilities to the build folder
               uses: canastro/copy-file-action@master
               with:
-                  source: "README-BUILD.md"
-                  target: "build/README.md"
+                  source: "build_utilities/*"
+                  target: "build/*"
 
             - name: Create server folder inside the build folder
               run: mkdir build/server/
