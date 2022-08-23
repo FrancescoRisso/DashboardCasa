@@ -23,7 +23,7 @@ try:
 	for key in ["dialect", "username", "password", "host", "dbname"]:
 		settings[key]
 except Exception as e:
-	printLog(app, "Err", None, f"SQL settings are missing or incomplete ({e}): aborting")
+	printLog(app, "Err", f"SQL settings are missing or incomplete ({e}): aborting")
 	quit(-1)
 
 mainRooms = [
@@ -37,7 +37,7 @@ mainRooms = [
 
 @app.route("/api/weatherNow")
 def weatherNow():
-	printLog(app, "Info", request, "Serving current weather")
+	printLog(app, "Info", "Serving current weather")
 
 	try:
 		page = urlopen(
@@ -54,13 +54,13 @@ def weatherNow():
 		return json.dumps({"icon": svg, "temperature": temp})
 
 	except Exception as e:
-		printLog(app, "Err", None, f"Error while serving current weather: {e}")
+		printLog(app, "Err", f"Error while serving current weather: {e}")
 		return json.dumps("Error")
 
 
 @app.route("/api/weatherForecast")
 def weatherForecast():
-	printLog(app, "Info", request, "Serving weather forecasts")
+	printLog(app, "Info", "Serving weather forecasts")
 	try:
 		page = urlopen(
 			"https://weather.com/it-IT/weather/today/l/e256c2aae80f726e762e14af45d2afe36111106461810a2161276ae9c564f200"
@@ -95,19 +95,19 @@ def weatherForecast():
 		return Response(json.dumps(forecasts), mimetype="application/json")
 
 	except Exception as e:
-		printLog(app, "Err", None, f"Error while serving weather forecasts: {e}")
+		printLog(app, "Err", f"Error while serving weather forecasts: {e}")
 		return json.dumps("Error")
 
 
 @app.route("/api/tempInterna")
 def tempInterna():
-	printLog(app, "Info", request, "Serving internal temperatures")
+	printLog(app, "Info", "Serving internal temperatures")
 	return temperatures(True)
 
 
 @app.route("/api/tempEsterna")
 def tempEsterna():
-	printLog(app, "Info", request, "Serving external temperatures")
+	printLog(app, "Info", "Serving external temperatures")
 	return temperatures(False)
 
 
@@ -167,13 +167,13 @@ def temperatures(internal):
 
 @app.route("/api/Raffrescamento")
 def raffrescamento():
-	printLog(app, "Info", request, "Serving cooling data")
+	printLog(app, "Info", "Serving cooling data")
 	return circolazioneAcqua(False)
 
 
 @app.route("/api/Riscaldamento")
 def riscaldamento():
-	printLog(app, "Info", request, "Serving heating data")
+	printLog(app, "Info", "Serving heating data")
 	return circolazioneAcqua(True)
 
 
@@ -246,7 +246,7 @@ def circolazioneAcqua(calda):
 
 @app.route("/api/consumptions")
 def consumptions():
-	printLog(app, "Info", request, "Serving consumptions data")
+	printLog(app, "Info", "Serving consumptions data")
 
 	downstairsName = "Seminterrato"
 	wallBoxName = "Wallbox"
@@ -285,7 +285,7 @@ def consumptions():
 		return json.dumps(res)
 
 	except Exception as e:
-		printLog(app, "Err", None, f"Error in serving consumptions data: {e}")
+		printLog(app, "Err", f"Error in serving consumptions data: {e}")
 		return "Error"
 
 
