@@ -8,6 +8,8 @@ state:
 		is not loaded yet
 	- modalOpen: briefly set to true when modal is opened, in order to refresh its
 		AdaptiveFontSize-s
+	- updateFontSize: briefly set to true when data is loaded, in order to refresh the displayed
+		AdaptiveFontSize-s
 	
 functions:
 	- updateData: retreives the data from the server, and stores it in the state
@@ -40,17 +42,25 @@ class Electricity extends React.Component {
 		super(props);
 		this.state = {
 			values: null,
-			modalOpen: false
+			modalOpen: false,
+			updateFontSize: false
 		};
 	}
 
 	updateData = () => {
 		apiCall("/consumptions")
 			.then((data) => {
-				this.setState({ values: data });
+				if (this.state.values !== "Error") this.setState({ values: data });
+				else
+					this.setState({ values: data, updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			})
 			.catch((err) => {
-				this.setState({ values: "Error" });
+				if (this.state.values !== "Error")
+					this.setState({ values: "Error", updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			});
 	};
 
@@ -81,6 +91,7 @@ class Electricity extends React.Component {
 					values={this.state.values}
 					doModalOpen={this.doModalOpen}
 					fontSizeGroup="titles-consumptions"
+					updateFontSize={this.state.updateFontSize}
 				/>
 				<ElectricityItem
 					padding="py"
@@ -88,6 +99,7 @@ class Electricity extends React.Component {
 					values={this.state.values}
 					doModalOpen={this.doModalOpen}
 					fontSizeGroup="titles-consumptions"
+					updateFontSize={this.state.updateFontSize}
 				/>
 				<ElectricityItem
 					padding="pt"
@@ -103,6 +115,7 @@ class Electricity extends React.Component {
 					values={this.state.values}
 					doModalOpen={this.doModalOpen}
 					fontSizeGroup="titles-consumptions"
+					updateFontSize={this.state.updateFontSize}
 				/>
 			</>
 		);

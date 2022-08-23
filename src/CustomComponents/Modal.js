@@ -53,9 +53,9 @@ class Modal extends React.Component {
 				<div className="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div className="modal-content h-100percent">
 						<div className="modal-body">
-							<div className="fill-primary rounded-lg py-2 white-text h-12percent">
+							<div className="fill-primary rounded-lg white-text h-12percent">
 								<AdaptiveFontSize
-									className="modal-title text-center"
+									className="text-center"
 									text={this.props.title}
 									recalc={this.props.recalc}
 								/>
@@ -146,11 +146,11 @@ class Modal extends React.Component {
 							<div className="spacer h-3percent"></div>
 							<button
 								type="button"
-								className="btn btn-primary text-center w-100 py-2 h-12percent"
+								className="btn btn-primary text-center w-100 py-0 h-12percent"
 								data-dismiss="modal"
 							>
 								<AdaptiveFontSize
-									className="modal-title text-center"
+									className="text-center"
 									text="Chiudi"
 									recalc={this.props.recalc}
 								/>

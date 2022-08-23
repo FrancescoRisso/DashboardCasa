@@ -7,10 +7,13 @@ state:
 	- values: the list of values (or null if loading, or "Error" if errors occurred)
 	- modalOpen: briefly set to true when modal is opened, in order to refresh its
 		AdaptiveFontSize-s
+	- updateFontSize: briefly set to true when data is loaded, in order to refresh the displayed
+		AdaptiveFontSize-s
 	
 props:
 	- title: the title to be displayed
-	- fontSizeGroup: the name of the group for the font-sizes
+	- fontSizeGroupTitles: the name of the group for the font-sizes
+	- fontSizeGroupValues: the name of the group for the font-sizes
 	
 functions:
 	- loadData: retreives the data from the server, and stores it in the state
@@ -40,18 +43,25 @@ class Temperature extends React.Component {
 		super(props);
 		this.state = {
 			values: null,
-			modalOpen: false
+			modalOpen: false,
+			updateFontSize: false
 		};
 	}
 
 	loadData = () => {
 		apiCall(`/temp${this.props.title}`)
 			.then((data) => {
-				this.setState({ values: data });
+				if (this.state.values !== "Error") this.setState({ values: data });
+				else
+					this.setState({ values: data, updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			})
 			.catch((err) => {
-				console.log(err);
-				this.setState({ values: "Error" });
+				if (this.state.values !== "Error")
+					this.setState({ values: "Error", updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			});
 	};
 
@@ -84,7 +94,7 @@ class Temperature extends React.Component {
 							<AdaptiveFontSize
 								text={`${this.props.title}:`}
 								className="mb-0 h-25percent w-90percent-right text-left"
-								group={this.props.fontSizeGroup}
+								group={this.props.fontSizeGroupTitles}
 								icon={this.props.title === "Interna" ? Inside : Outside}
 							/>
 							{this.state.values === null ? (
@@ -94,9 +104,11 @@ class Temperature extends React.Component {
 									text={
 										this.state.values === "Error"
 											? "Si è verificato un errore"
-											: `${this.state.values[0].value.toFixed(1)}°C`
+											: `${this.state.values[0].value.toFixed(1).replace(".", ",")}°C`
 									}
 									className="m-0 text-right h-75percent w-90percent-left"
+									group={this.props.fontSizeGroupValues}
+									recalc={this.state.updateFontSize}
 								/>
 							)}
 						</div>

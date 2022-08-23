@@ -11,6 +11,8 @@ props:
 	- recalc: briefly set to true when modal is opened, in order to refresh its
 		AdaptiveFontSize-s
 	- fontSizeGroup: the name of the group for the font-sizes
+	- updateFontSize: set it to true, then false to force a recalculation of the font sizes
+		(to be done when the values change between values and errors)
 	
 imported into:
 	- Electricity
@@ -50,6 +52,7 @@ class ElectricityItem extends React.Component {
 											.replace(".", ",")} kW`
 									: "Si è verificato un errore"
 							}
+							recalc={this.props.updateFontSize}
 						/>
 					) : (
 						<div className="h-70percent w-100">

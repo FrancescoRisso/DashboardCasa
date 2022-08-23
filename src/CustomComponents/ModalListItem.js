@@ -24,7 +24,7 @@ class ModalListItem extends React.Component {
 	render() {
 		return (
 			<div className="row m-0 fill-primary-light w-100 h-100percent rounded-lg">
-				<div className="col-7 h-100percent">
+				<div className="col-7 h-100percent p-0">
 					<AdaptiveFontSize
 						text={this.props.name}
 						recalc={this.props.recalc}
@@ -32,17 +32,16 @@ class ModalListItem extends React.Component {
 						group={this.props.fontSizeGroup}
 					/>
 				</div>
-				<div className="col-5 h-100percent">
+				<div className="col-5 h-100percent p-0">
 					<AdaptiveFontSize
-						text={`${
-							typeof this.props.value === "boolean"
-								? this.props.value
-									? "ON"
-									: "OFF"
-								: this.props.unit === " kW"
-								? this.props.value.toFixed(4)
-								: this.props.value.toFixed(1)
-						}${this.props.unit}`}
+						text={`${(typeof this.props.value === "boolean"
+							? this.props.value
+								? "ON"
+								: "OFF"
+							: this.props.unit === " kW"
+							? this.props.value.toFixed(4)
+							: this.props.value.toFixed(1)
+						).replace(".", ",")}${this.props.unit}`}
 						recalc={this.props.recalc}
 						className="text-center"
 						group={this.props.fontSizeGroup}

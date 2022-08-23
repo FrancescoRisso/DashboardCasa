@@ -9,6 +9,8 @@ state:
 	- modalOpen: briefly set to true when modal is opened, in order to refresh its
 		AdaptiveFontSize-s
 	- fontSizeGroup: the name of the group for the font-sizes
+	- updateFontSize: briefly set to true when data is loaded, in order to refresh the displayed
+		AdaptiveFontSize-s
 	
 props:
 	- title: the title of the thing
@@ -42,19 +44,25 @@ class IsOnOff extends React.Component {
 		this.state = {
 			values: null,
 			summary: null,
-			modalOpen: false
+			modalOpen: false,
+			updateFontSize: false
 		};
 	}
 
 	updateValues = () => {
 		apiCall(`/${this.props.title}`)
 			.then((data) => {
-				if (data === "Error") this.setState({ summary: "Error", values: "Error" });
-				else this.setState({ summary: data.shift(), values: data });
+				if (this.state.values !== "Error") this.setState({ summary: data.shift(), values: data });
+				else
+					this.setState({ summary: data.shift(), values: data, updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			})
 			.catch((err) => {
-				console.log(err);
-				this.setState({ values: "Error", summary: "Error" });
+				if (this.state.values !== "Error")
+					this.setState({ summary: "Error", values: "Error", updateFontSize: true }, () => {
+						this.setState({ updateFontSize: false });
+					});
 			});
 	};
 
@@ -96,6 +104,7 @@ class IsOnOff extends React.Component {
 								}`}
 								group={this.props.fontSizeGroup}
 								icon={this.props.title === "Riscaldamento" ? Heating : Cooling}
+								recalc={this.state.updateFontSize}
 							/>
 						)}
 					</div>

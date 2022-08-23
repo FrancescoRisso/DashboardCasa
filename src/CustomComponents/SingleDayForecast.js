@@ -10,6 +10,8 @@ props:
 	- count: the number of forecasted days
 	- fontSizeGroups: an object {"day", "temperatures"} containing the names of the groups for
 		the AdaptiveFontSizes
+	- recalc: set it to true, then false to force a recalculation of the font sizes
+		(to be done when the values change)
 	
 functions:
 	- componentDidMount: inserts the icon in the container div
@@ -44,6 +46,7 @@ class SingleDayForecast extends React.Component {
 						className="center-vertically m-0 text-left text py-auto h-100percent"
 						text={`${this.props.day}:`}
 						group={this.props.fontSizeGroups.day}
+						recalc={this.props.recalc}
 					/>
 				</div>
 				<div className="col-2 mx-0 h-100percent w-100 p-0">
@@ -55,6 +58,7 @@ class SingleDayForecast extends React.Component {
 						HTMLtext={`<span class="text-blue">${this.props.temp[0]}</span> - <span class="text-red">${this.props.temp[1]}</span>`}
 						text={`${this.props.temp[0]} - ${this.props.temp[1]}`}
 						group={this.props.fontSizeGroups.temperatures}
+						recalc={this.props.recalc}
 					/>
 				</div>
 			</div>

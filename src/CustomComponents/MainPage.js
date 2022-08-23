@@ -36,7 +36,8 @@ class MainPage extends React.Component {
 	static contextType = Context;
 
 	componentDidMount = () => {
-		this.context.AdaptiveFontSize.registerGroup("titles-temperatures");
+		this.context.AdaptiveFontSize.registerGroup("titles-temperatures-titles");
+		this.context.AdaptiveFontSize.registerGroup("titles-temperatures-values");
 		this.context.AdaptiveFontSize.registerGroup("titles-onOff");
 	};
 
@@ -51,12 +52,20 @@ class MainPage extends React.Component {
 						<div className="px-0 col-4 h-100percent pr-1">
 							<div className="h-50percent pb-1">
 								<div className="h-100percent fill-primary-light rounded-lg">
-									<Temperature title="Interna" fontSizeGroup="titles-temperatures" />
+									<Temperature
+										title="Interna"
+										fontSizeGroupTitles="titles-temperatures-titles"
+										fontSizeGroupValues="titles-temperatures-values"
+									/>
 								</div>
 							</div>
 							<div className="h-50percent pt-1">
 								<div className="h-100percent fill-primary-light rounded-lg">
-									<Temperature title="Esterna" fontSizeGroup="titles-temperatures" />
+									<Temperature
+										title="Esterna"
+										fontSizeGroupTitles="titles-temperatures-titles"
+										fontSizeGroupValues="titles-temperatures-values"
+									/>
 								</div>
 							</div>
 						</div>

@@ -6,6 +6,10 @@ description:
 state:
 	- currentWeather: the temperature and the link to the image of the current temperature
 	- forecasts: the forecasts for the next days
+	- currentWeatherResize: briefly set to true when data is loaded, in order to refresh the displayed
+		AdaptiveFontSize for the current temperature
+	- forecastsResize: briefly set to true when data is loaded, in order to refresh the displayed
+		AdaptiveFontSize-s for the weather forecasts
 	
 functions:
 	- apiCall(): calls an API and returns the result
@@ -38,31 +42,40 @@ class Previsioni extends React.Component {
 		super(props);
 		this.state = {
 			currentWeather: null,
-			forecasts: []
+			currentWeatherResize: false,
+			forecasts: [],
+			forecastsResize: false
 		};
 	}
 
 	loadForecasts = () => {
 		apiCall("/weatherNow")
 			.then((data) => {
-				this.setState({ currentWeather: data });
+				this.setState({ currentWeather: data, currentWeatherResize: true }, () => {
+					this.setState({ currentWeatherResize: false });
+				});
 			})
 			.catch((err) => {
-				this.setState({ currentWeather: "Error" });
+				this.setState({ currentWeather: "Error", currentWeatherResize: true }, () => {
+					this.setState({ currentWeatherResize: false });
+				});
 			});
 
 		apiCall("/weatherForecast")
 			.then((data) => {
-				this.setState({ forecasts: data });
+				this.setState({ forecasts: data, forecastsResize: true }, () => {
+					this.setState({ forecastsResize: false });
+				});
 			})
 			.catch((err) => {
-				console.log(err);
-				this.setState({ forecasts: "Error" });
+				this.setState({ forecasts: "Error", forecastsResize: true }, () => {
+					this.setState({ forecastsResize: false });
+				});
 			});
 	};
 
 	componentDidUpdate = () => {
-		if (this.state.currentWeather !== null)
+		if (this.state.currentWeather !== null && this.state.currentWeather !== "Error")
 			document.getElementById("forecast-now").innerHTML = this.state.currentWeather.icon;
 	};
 
@@ -83,12 +96,12 @@ class Previsioni extends React.Component {
 						rel="noopener noreferrer"
 					>
 						<div className="h-40percent py-2">
-							<div className="row m-0 px-2 h-100percent">
+							<div className="h-35percent">
+								<AdaptiveFontSize text="Manta" className="text-center" />
+							</div>
+							<div className="row m-0 px-2 h-65percent">
 								<div className="col-6 p-0 h-100percent">
-									<div className="h-35percent">
-										<AdaptiveFontSize text="Manta" className="text-center" />
-									</div>
-									<div className="h-65percent">
+									<div className="h-100percent">
 										<div id="forecast-now" className="h-100percent" />
 									</div>
 								</div>
@@ -107,6 +120,7 @@ class Previsioni extends React.Component {
 													: this.state.currentWeather.temperature
 											}
 											className="text-center"
+											recalc={this.state.currentWeatherResize}
 										/>
 									)}
 								</div>
@@ -127,6 +141,7 @@ class Previsioni extends React.Component {
 											day: "forecasts-days",
 											temperatures: "forecasts-temperatures"
 										}}
+										recalc={this.state.forecastsResize}
 									/>
 								))
 							)}

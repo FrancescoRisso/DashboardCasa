@@ -125,18 +125,29 @@ class AdaptiveFontSize extends React.Component {
 					}}
 				>
 					{this.props.icon ? (
-						<span className=" center-vertically">
+						<>
+							<span className=" center-vertically">
+								<img
+									height={
+										this.props.group && this.context.AdaptiveFontSize.groups[this.props.group]
+											? this.context.AdaptiveFontSize.groups[this.props.group].fontSize * 1.2
+											: this.state.fontSize * 1.2
+									}
+									src={this.props.icon}
+									className="center-vertically pos-abs"
+									alt=""
+								/>
+							</span>
 							<img
-								height={
+								className="mr-2"
+								width={
 									this.props.group && this.context.AdaptiveFontSize.groups[this.props.group]
 										? this.context.AdaptiveFontSize.groups[this.props.group].fontSize * 1.2
 										: this.state.fontSize * 1.2
 								}
-								src={this.props.icon}
-								className="pr-2 top-0"
 								alt=""
 							/>
-						</span>
+						</>
 					) : (
 						<></>
 					)}
