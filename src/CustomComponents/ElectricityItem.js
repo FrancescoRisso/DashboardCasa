@@ -13,6 +13,7 @@ props:
 	- fontSizeGroup: the name of the group for the font-sizes
 	- updateFontSize: set it to true, then false to force a recalculation of the font sizes
 		(to be done when the values change between values and errors)
+	- arrange (col|row): whether the items should be arranged in a row or in a column
 	
 imported into:
 	- Electricity
@@ -28,15 +29,23 @@ import AdaptiveFontSize from "./AdaptiveFontSize";
 class ElectricityItem extends React.Component {
 	render() {
 		return (
-			<div className={`h-33percent ${this.props.padding}-1`}>
+			<div
+				className={`${this.props.arrange === "col" ? `h-33percent` : `h-100percent col-4 p-0`} ${
+					this.props.padding
+				}-1`}
+			>
 				<button
-					className="h-100percent fill-primary-light rounded-lg py-2 btn w-100"
+					className={`h-100percent fill-primary-light rounded-lg py-2 btn w-100 ${
+						this.props.arrange === "row" ? "px-1" : ""
+					}`}
 					data-toggle="modal"
 					data-target={`#modal-consumptions`}
 					onClick={this.props.doModalOpen}
 				>
 					<AdaptiveFontSize
-						className="h-30percent w-90percent-right text-left"
+						className={`h-30percent ${
+							this.props.arrange === "col" ? "w-90percent-right" : "w-100percent"
+						} text-left`}
 						text={`${this.props.title}:`}
 						group={this.props.fontSizeGroup}
 					/>

@@ -41,7 +41,7 @@ class SingleDayForecast extends React.Component {
 	render() {
 		return (
 			<div className="row m-0 w-100" style={{ height: `${100 / this.props.count}%` }}>
-				<div className="col-4 h-100percent">
+				<div className={`col-4 h-100percent px-1`}>
 					<AdaptiveFontSize
 						className="center-vertically m-0 text-left text py-auto h-100percent"
 						text={`${this.props.day}:`}
@@ -52,7 +52,7 @@ class SingleDayForecast extends React.Component {
 				<div className="col-2 mx-0 h-100percent w-100 p-0">
 					<div id={`icon-${this.props.day}`} className="h-100percent w-100"></div>
 				</div>
-				<div className={"col-6 mx-0 h-100percent"}>
+				<div className="col-6 mx-0 h-100percent px-1">
 					<AdaptiveFontSize
 						className="text-center text-half-big m-0 center-vertically"
 						HTMLtext={`<span class="text-blue">${this.props.temp[0]}</span> - <span class="text-red">${this.props.temp[1]}</span>`}

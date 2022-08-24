@@ -84,7 +84,7 @@ class IsOnOff extends React.Component {
 					unit=""
 				/>
 				<button
-					className="h-100percent w-100 btn btn-primary rounded-lg p-0"
+					className="h-100percent w-100 btn btn-primary rounded-lg p-0 px-2"
 					data-toggle="modal"
 					data-target={`#modal-${this.props.title}`}
 					onClick={this.doModalOpen}

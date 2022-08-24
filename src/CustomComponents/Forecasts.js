@@ -10,6 +10,9 @@ state:
 		AdaptiveFontSize for the current temperature
 	- forecastsResize: briefly set to true when data is loaded, in order to refresh the displayed
 		AdaptiveFontSize-s for the weather forecasts
+
+props:
+	- arrange (col|row): whether the items should be arranged in a row or in a column
 	
 functions:
 	- apiCall(): calls an API and returns the result
@@ -95,56 +98,70 @@ class Previsioni extends React.Component {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<div className="h-40percent py-2">
-							<div className="h-35percent">
-								<AdaptiveFontSize text="Manta" className="text-center" />
-							</div>
-							<div className="row m-0 px-2 h-65percent">
-								<div className="col-6 p-0 h-100percent">
-									<div className="h-100percent">
-										<div id="forecast-now" className="h-100percent" />
+						<div className={this.props.arrange === "col" ? "h-100percent" : "row m-0 w-100percent h-100percent"}>
+							<div
+								className={
+									this.props.arrange === "col"
+										? "py-2 h-40percent"
+										: "col-6 p-0 w-100percent h-100percent"
+								}
+							>
+								<div className="h-35percent">
+									<AdaptiveFontSize text="Manta" className="text-center" />
+								</div>
+								<div className="row m-0 px-2 h-65percent">
+									<div className="col-6 p-0 h-100percent">
+										<div className="h-100percent">
+											<div id="forecast-now" className="h-100percent" />
+										</div>
+									</div>
+									<div className="col-6 p-0 h-100percent">
+										{this.state.currentWeather === null ? (
+											<span className="text-center col-8 py-auto">
+												<div className="center-vertically">
+													<div className="spinner-border"></div>
+												</div>
+											</span>
+										) : (
+											<AdaptiveFontSize
+												text={
+													this.state.currentWeather === "Error"
+														? "Si è verificato un errore"
+														: this.state.currentWeather.temperature
+												}
+												className="text-center"
+												recalc={this.state.currentWeatherResize}
+											/>
+										)}
 									</div>
 								</div>
-								<div className="col-6 p-0 h-100percent">
-									{this.state.currentWeather === null ? (
-										<span className="text-center col-8 py-auto">
-											<div className="center-vertically">
-												<div className="spinner-border"></div>
-											</div>
-										</span>
-									) : (
-										<AdaptiveFontSize
-											text={
-												this.state.currentWeather === "Error"
-													? "Si è verificato un errore"
-													: this.state.currentWeather.temperature
-											}
-											className="text-center"
-											recalc={this.state.currentWeatherResize}
-										/>
-									)}
-								</div>
 							</div>
-						</div>
-						<div className="h-60percent py-2">
-							{this.state.forecasts === "Error" ? (
-								<p className="text-center col-12">Si è verificato un errore.</p>
-							) : (
-								this.state.forecasts.map((day) => (
-									<SingleDayForecast
-										day={day.day}
-										icon={day.icon}
-										temp={[day.minTemp, day.maxTemp]}
-										count={this.state.forecasts.length}
-										key={day.day}
-										fontSizeGroups={{
-											day: "forecasts-days",
-											temperatures: "forecasts-temperatures"
-										}}
-										recalc={this.state.forecastsResize}
-									/>
-								))
-							)}
+							<div
+								className={
+									this.props.arrange === "col"
+										? "py-2 h-60percent px-2"
+										: "col-6 p-0 w-100percent h-100percent"
+								}
+							>
+								{this.state.forecasts === "Error" ? (
+									<p className="text-center col-12">Si è verificato un errore.</p>
+								) : (
+									this.state.forecasts.map((day) => (
+										<SingleDayForecast
+											day={day.day}
+											icon={day.icon}
+											temp={[day.minTemp, day.maxTemp]}
+											count={this.state.forecasts.length}
+											key={day.day}
+											fontSizeGroups={{
+												day: "forecasts-days",
+												temperatures: "forecasts-temperatures"
+											}}
+											recalc={this.state.forecastsResize}
+										/>
+									))
+								)}
+							</div>
 						</div>
 					</a>
 				</>

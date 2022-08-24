@@ -63,7 +63,7 @@ class Modal extends React.Component {
 							<div className="spacer h-3percent"></div>
 							<div className="h-70percent">
 								{this.props.values && this.props.values !== "Error" ? (
-									this.props.values.length < 6 ? (
+									this.props.values.length < 6 || this.props.alwaysVertical ? (
 										<ModalList
 											values={this.props.values}
 											recalc={this.props.recalc}

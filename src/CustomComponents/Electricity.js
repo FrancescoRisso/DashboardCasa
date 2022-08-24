@@ -10,6 +10,9 @@ state:
 		AdaptiveFontSize-s
 	- updateFontSize: briefly set to true when data is loaded, in order to refresh the displayed
 		AdaptiveFontSize-s
+
+props:
+	- arrange (col|row): whether the items should be arranged in a row or in a column
 	
 functions:
 	- updateData: retreives the data from the server, and stores it in the state
@@ -84,39 +87,45 @@ class Electricity extends React.Component {
 					recalc={this.state.modalOpen}
 					values={this.state.values}
 					unit=" kW"
+					alwaysVertical={this.props.arrange === "row"}
 				/>
-				<ElectricityItem
-					padding="pb"
-					title="Produzione fotovoltaico"
-					values={this.state.values}
-					doModalOpen={this.doModalOpen}
-					fontSizeGroup="titles-consumptions"
-					updateFontSize={this.state.updateFontSize}
-				/>
-				<ElectricityItem
-					padding="py"
-					title="Consumo totale"
-					values={this.state.values}
-					doModalOpen={this.doModalOpen}
-					fontSizeGroup="titles-consumptions"
-					updateFontSize={this.state.updateFontSize}
-				/>
-				<ElectricityItem
-					padding="pt"
-					title={
-						this.state.values &&
-						this.state.values !== "Error" &&
-						this.state.values.filter((x) => x.label === "Immessa in rete") &&
-						this.state.values.filter((x) => x.label === "Immessa in rete").length > 0 &&
-						this.state.values.filter((x) => x.label === "Immessa in rete")[0].value > 0
-							? "Immessa in rete"
-							: "Comprata dall'ENEL"
-					}
-					values={this.state.values}
-					doModalOpen={this.doModalOpen}
-					fontSizeGroup="titles-consumptions"
-					updateFontSize={this.state.updateFontSize}
-				/>
+				<div className={`h-100percent ${this.props.arrange === "row" ? "row w-100percent m-0" : ""}`}>
+					<ElectricityItem
+						padding={this.props.arrange === "col" ? "pb" : "pr"}
+						title="Produzione fotovoltaico"
+						values={this.state.values}
+						doModalOpen={this.doModalOpen}
+						fontSizeGroup="titles-consumptions"
+						updateFontSize={this.state.updateFontSize}
+						arrange={this.props.arrange}
+					/>
+					<ElectricityItem
+						padding={this.props.arrange === "col" ? "py" : "px"}
+						title="Consumo totale"
+						values={this.state.values}
+						doModalOpen={this.doModalOpen}
+						fontSizeGroup="titles-consumptions"
+						updateFontSize={this.state.updateFontSize}
+						arrange={this.props.arrange}
+					/>
+					<ElectricityItem
+						padding={this.props.arrange === "col" ? "pt" : "pl"}
+						title={
+							this.state.values &&
+							this.state.values !== "Error" &&
+							this.state.values.filter((x) => x.label === "Immessa in rete") &&
+							this.state.values.filter((x) => x.label === "Immessa in rete").length > 0 &&
+							this.state.values.filter((x) => x.label === "Immessa in rete")[0].value > 0
+								? "Immessa in rete"
+								: "Comprata dall'ENEL"
+						}
+						values={this.state.values}
+						doModalOpen={this.doModalOpen}
+						fontSizeGroup="titles-consumptions"
+						updateFontSize={this.state.updateFontSize}
+						arrange={this.props.arrange}
+					/>
+				</div>
 			</>
 		);
 	}

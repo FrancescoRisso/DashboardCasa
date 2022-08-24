@@ -168,6 +168,10 @@ body {
 	height: 15vh;
 }
 
+.h-20 {
+	height: 20vh;
+}
+
 .h-33vh {
 	height: 33vh;
 	font-size: 16.5vh;
@@ -179,6 +183,10 @@ body {
 
 .h-55 {
 	height: 55vh;
+}
+
+.h-60 {
+	height: 60vh;
 }
 
 .h-85 {
@@ -212,11 +220,12 @@ body {
 }
 
 .h-33percent.py-1 {
-	height: calc(33.3333333% + 1rem/6);
+	height: calc(33.3333333% + 1rem / 6);
 }
 
-.h-33percent.pt-1, .h-33percent.pb-1 {
-	height: calc(33.3333333% - 1rem/12);
+.h-33percent.pt-1,
+.h-33percent.pb-1 {
+	height: calc(33.3333333% - 1rem / 12);
 }
 
 .h-35percent {
@@ -296,4 +305,17 @@ svg {
 
 .pos-abs {
 	position: absolute;
+}
+
+.w-33percent.px-1 {
+	width: calc(33.3333333% + 1rem / 6);
+}
+
+.w-33percent.pl-1,
+.w-33percent.pr-1 {
+	width: calc(33.3333333% - 1rem / 12);
+}
+
+.inline {
+	display: inline;
 }

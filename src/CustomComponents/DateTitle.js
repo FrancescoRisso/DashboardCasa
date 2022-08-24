@@ -96,7 +96,7 @@ class DateTitle extends React.Component {
 		return (
 			<>
 				<CyclicAction action={this.updateClockValues} time={60 /* Every minute */} firstWait={this.syncWait} />
-				<div className="h-100percent rounded-lg fill-primary">
+				<div className="h-100percent rounded-lg fill-primary px-2">
 					<div className="h-100percent align-items-center row">
 						<div className="w-100 h-100percent">
 							<div className="h-50percent">
