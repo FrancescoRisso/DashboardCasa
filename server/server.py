@@ -72,7 +72,7 @@ def weatherForecast():
 		forecasts = []
 
 		for i in range(2, DAYS + 2):
-			icon = page.xpath(f"//div[contains(@id,'DailyWeatherCard')]//div/ul/li[2]/a//*[name()='svg'][1]")[0]
+			icon = page.xpath(f"//div[contains(@id,'DailyWeatherCard')]//div/ul/li[{i}]/a//*[name()='svg'][1]")[0]
 			icon = etree.tostring(icon, pretty_print=True).decode("utf-8")
 
 			day = (
