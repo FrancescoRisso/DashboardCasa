@@ -54,7 +54,7 @@ jobs:
                   "regex": false
 
             - name: Test
-              run: ls -la .github
+              run: ls -la .github/workflows
 
             # - name: Push to the build branch
             #   uses: s0/git-publish-subdir-action@develop
