@@ -28,8 +28,8 @@ jobs:
             - name: Create .github folder inside the build folder
               run: mkdir build/.github/
 
-            # - name: Create workflows folder inside the build folder
-            #   run: mkdir build/.github/workflows/
+            - name: Create workflows folder inside the build folder
+              run: mkdir build/.github/workflows/
 
             - name: Copy github actions to the build branch
               uses: canastro/copy-file-action@master
