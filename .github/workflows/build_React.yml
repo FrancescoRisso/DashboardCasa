@@ -53,14 +53,11 @@ jobs:
                   include: "build/server/log.py"
                   "regex": false
 
-            - name: Test
-              run: ls -la .github/workflows
-
-            # - name: Push to the build branch
-            #   uses: s0/git-publish-subdir-action@develop
-            #   env:
-            #       REPO: self
-            #       BRANCH: build
-            #       FOLDER: build
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-            #       MESSAGE: "${{ github.event.head_commit.message }}"
+            - name: Push to the build branch
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                  REPO: self
+                  BRANCH: build
+                  FOLDER: build
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+                  MESSAGE: "${{ github.event.head_commit.message }}"
