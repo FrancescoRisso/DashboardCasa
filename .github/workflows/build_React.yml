@@ -32,7 +32,7 @@ jobs:
               run: mv .github/workflows build/.github/workflows
 
             - name: Copy all the build utilities to the build folder
-              run: mv -a build_utilities/. build
+              run: cp -a build_utilities/. build
 
             - name: Copy server to the build folder
               run: mv server build/server/
