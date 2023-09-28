@@ -28,29 +28,14 @@ jobs:
             - name: Create .github folder inside the build folder
               run: mkdir build/.github/
 
-            - name: Create workflows folder inside the build folder
-              run: mkdir build/.github/workflows/
-
             - name: Copy github actions to the build branch
-              uses: canastro/copy-file-action@master
-              with:
-                  source: .github/workflows/*
-                  target: build/.github/workflows/
+              run: cp -r .github/workflows build/.github/workflows
 
             - name: Copy all the build utilities to the build folder
-              uses: canastro/copy-file-action@master
-              with:
-                  source: "build_utilities/*"
-                  target: "build/"
-
-            - name: Create server folder inside the build folder
-              run: mkdir build/server/
+              run: cp -a build_utilities/. build
 
             - name: Copy server to the build folder
-              uses: canastro/copy-file-action@master
-              with:
-                  source: "server/*"
-                  target: "build/server/"
+              run: mv server build/server/
 
             - name: Update error logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2

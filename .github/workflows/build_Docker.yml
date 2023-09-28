@@ -9,7 +9,7 @@ on:
             - completed
 
 jobs:
-    dockerNginx:
+    nginxDocker:
         runs-on: ubuntu-latest
         steps:
             - name: Clone repository
@@ -37,7 +37,7 @@ jobs:
                   push: true
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_nginx:latest
 
-    gunicornNginx:
+    gunicornDocker:
         runs-on: ubuntu-latest
         steps:
             - name: Clone repository
