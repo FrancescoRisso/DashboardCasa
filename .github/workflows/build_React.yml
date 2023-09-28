@@ -34,8 +34,8 @@ jobs:
             - name: Copy github actions to the build branch
               uses: canastro/copy-file-action@master
               with:
-                  source: .github/workflows/*
-                  target: build/.github/workflows/
+                  source: .github/workflows
+                  target: build/.github/workflows
 
             - name: Copy all the build utilities to the build folder
               uses: canastro/copy-file-action@master
