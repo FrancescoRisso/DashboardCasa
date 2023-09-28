@@ -28,32 +28,14 @@ jobs:
             - name: Create .github folder inside the build folder
               run: mkdir build/.github/
 
-            # - name: Create workflows folder inside the build folder
-            #   run: mkdir build/.github/workflows/
-
             - name: Copy github actions to the build branch
               run: mv .github/workflows build/.github/workflows
 
-            # - name: Copy github actions to the build branch
-            #   uses: canastro/copy-file-action@master
-            #   with:
-            #       source: ".github/workflows/*"
-            #       target: "build/.github/workflows/"
-
             - name: Copy all the build utilities to the build folder
-              uses: canastro/copy-file-action@master
-              with:
-                  source: "build_utilities/*"
-                  target: "build/"
-
-            - name: Create server folder inside the build folder
-              run: mkdir build/server/
+              run: mv -a build_utilities/. build
 
             - name: Copy server to the build folder
-              uses: canastro/copy-file-action@master
-              with:
-                  source: "server/*"
-                  target: "build/server/"
+              run: mv server build/server/
 
             - name: Update error logging in the build server
               uses: jacobtomlinson/gha-find-replace@v2
@@ -71,11 +53,14 @@ jobs:
                   include: "build/server/log.py"
                   "regex": false
 
-            - name: Push to the build branch
-              uses: s0/git-publish-subdir-action@develop
-              env:
-                  REPO: self
-                  BRANCH: build
-                  FOLDER: build
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-                  MESSAGE: "${{ github.event.head_commit.message }}"
+            - name: Test
+              run: tree .
+
+            # - name: Push to the build branch
+            #   uses: s0/git-publish-subdir-action@develop
+            #   env:
+            #       REPO: self
+            #       BRANCH: build
+            #       FOLDER: build
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+            #       MESSAGE: "${{ github.event.head_commit.message }}"
