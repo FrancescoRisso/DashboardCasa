@@ -25,17 +25,17 @@ jobs:
               env:
                   CI: false
 
-            - name: Create .github folder inside the build folder
-              run: mkdir build/.github/
+            # - name: Create .github folder inside the build folder
+            #   run: mkdir build/.github/
 
-            - name: Create workflows folder inside the build folder
-              run: mkdir build/.github/workflows/
+            # - name: Create workflows folder inside the build folder
+            #   run: mkdir build/.github/workflows/
 
-            - name: Copy github actions to the build branch
-              uses: canastro/copy-file-action@master
-              with:
-                  source: ".github/workflows/*"
-                  target: "build/.github/workflows/"
+            # - name: Copy github actions to the build branch
+            #   uses: canastro/copy-file-action@master
+            #   with:
+            #       source: ".github/workflows/*"
+            #       target: "build/.github/workflows/"
 
             - name: Copy all the build utilities to the build folder
               uses: canastro/copy-file-action@master
