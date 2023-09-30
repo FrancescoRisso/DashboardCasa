@@ -18,7 +18,7 @@ DAYS = 4
 app = Flask(__name__)
 
 try:
-	with open("SQLsettings.json") as f:
+	with open("SQLsettings/SQLsettings.json") as f:
 		settings = json.load(f)
 	for key in ["dialect", "username", "password", "host", "dbname"]:
 		settings[key]
