@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: webserver
+spec:
+    selector:
+        matchLabels:
+            app: webserver
+    template:
+        metadata:
+            labels:
+                app: webserver
+        spec:
+            containers:
+                - name: webserver
+                  image: francescorisso/dashboard_casa_nginx:latest
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  ports:
+                      - containerPort: 80
+                  env:
+                      - name: SSL_key
+                        value: "-----BEGIN PRIVATE KEY-----
+                            MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDfim5tFqGU3jqo
+                            VImX8Qi/mHYrWwxGizi2M8zUWRrziupx/ynzvMUvaugkSKeKM0ByW2EasS00mHlm
+                            hmBNL5Q6HojYqOmKnyhrgxdO81WFea9ayRRK/6WqOZPkbfyMfFEW1a8ARkQUGpbq
+                            PcoGak0cRYqlW022pOS6NlnssRnDJ81tzcB3W6brR7sS/3zjzNOhjlXDJ28Yu5QT
+                            nZOt1bp+p4vkPf2DdQGNeTI4QhF8RV9HimuT/mDZc/msvyMWVU2Zj3WhpRQZTvj4
+                            BamdvXc2uq0jmd35x/aFxPBFO4T+H0s4ctz7hUBvnPDTQf9opEr9XnI2rUyXf9Kr
+                            0YODpL3rAgMBAAECggEASbFUKAhO6km8oqOD3KAsVyVGx5IzYMoivwYin1pkpScF
+                            lOEejmiLxM8EinmdKdUtiMWRJICGO5GMa/0eoDNwNRy91lcQ7o77fz3vICrd5auw
+                            4EfrtbHDhnOGysZrfFC7VsDI+VkwtkPxvnTyNd0zYH+YblzEKNMBSFYEnR/hM1E9
+                            AcOy58ehIPa/P/C+35XMMhG8Beg1XNPzHYYy9ZSv6kJdwHLbNs9AGoTlvQVVFO8p
+                            ALXPnXZar411sGO3U6S66PgKJdvPGRzRw9pEac9M1q+gLHiu5fnROFkb7h6MqKFQ
+                            VDEfpwaZhhHohp5lFzM9lZkNVj6tI289HVNdsR8vOQKBgQD15FvbXVtM6XlkxQFZ
+                            vngatWWocq2QyHrw/gmKiRMmpGJKf0jeDsP/VFBCKw9czrZPWbZ4ur9asEaFwCjf
+                            H2Tryu0jynviDlzbYzch/yl1INKeA+1w0wv9dpMa83SZTUUdvzfP1WuGEYvwr/vL
+                            p53rG03Y0M90nZABQiOIXA59fwKBgQDoutvyyBgQD8QGn4PAAyNosZn3Gl7KPZwy
+                            HwGlZoDMGdl5z2cXcyVC5gC7CiPhnlRyB4HUmDf42vvKVGRoZXeAs4wvJcGuoxbc
+                            cFKuAngz1Asrbhq/wWdwY8gToZZCTkGSzRfikr3zPDhhQjmcKUsK7UdFkuSd5wt6
+                            q69wNMnNlQKBgQC3uNslSVi5W8z3DPeYXWcR1a1SMfUbM6AgRj9MwmSLv9EtBnOk
+                            bvXk5dNdzRyaZFz1ZvueszHcic73in8/Tw6x2xpaXqU3XzHkPfporWUFffPAWwDj
+                            Bt1zkVASmArrrD9THZeO81B2iM+9k1AYd3HXw7vjnwkSgdOiDQ/Nh7LP8wKBgFmv
+                            AGlrkFJIMQs4V0YcL339ys49fD/FRDbQWgsKGCIO6A6XzSttNPO1vJxXSQJ9yB71
+                            I6PwUMl2YcdThCnyx/1xs1jL3PpWYM3r/wCNdRLL6M4ArRAuEJVv7j8aatP8YiqX
+                            HFg0ojxkfXmFUrwJ8aAxVeDKvYzX50WLeZzsysONAoGBAL1OJPpz7LGzuYdH8Rdc
+                            DliJhas6ZiIh1A82xEOtCb+agYxOU41b7kzANLFHbvgNxd6Ngiwp2GOeKN9BI9Ew
+                            pyGv+OmhlxhnMVElF1o+P4hvfcVPrhViaLNEuQyeoIpzxyHoFY2i1oH26NU+iDM3
+                            ZXlJdyFCmQ23pVQ4badiN/cQ
+                            -----END PRIVATE KEY-----"
+                      - name: SSL_pem
+                        value: "-----BEGIN CERTIFICATE-----
+                            MIIDnTCCAoWgAwIBAgIUY0MXq5XCU0RRcjXWyGH5g3rUYQIwDQYJKoZIhvcNAQEL
+                            BQAweDELMAkGA1UEBhMCSVQxDDAKBgNVBAgMA04vQTEMMAoGA1UEBwwDTi9BMSAw
+                            HgYDVQQKDBdTZWxmLXNpZ25lZCBjZXJ0aWZpY2F0ZTErMCkGA1UEAwwiMTIwLjAu
+                            MC4xOiBTZWxmLXNpZ25lZCBjZXJ0aWZpY2F0ZTAeFw0yMjA4MzExOTM1MjRaFw0y
+                            NDA4MzAxOTM1MjRaMHgxCzAJBgNVBAYTAklUMQwwCgYDVQQIDANOL0ExDDAKBgNV
+                            BAcMA04vQTEgMB4GA1UECgwXU2VsZi1zaWduZWQgY2VydGlmaWNhdGUxKzApBgNV
+                            BAMMIjEyMC4wLjAuMTogU2VsZi1zaWduZWQgY2VydGlmaWNhdGUwggEiMA0GCSqG
+                            SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDfim5tFqGU3jqoVImX8Qi/mHYrWwxGizi2
+                            M8zUWRrziupx/ynzvMUvaugkSKeKM0ByW2EasS00mHlmhmBNL5Q6HojYqOmKnyhr
+                            gxdO81WFea9ayRRK/6WqOZPkbfyMfFEW1a8ARkQUGpbqPcoGak0cRYqlW022pOS6
+                            NlnssRnDJ81tzcB3W6brR7sS/3zjzNOhjlXDJ28Yu5QTnZOt1bp+p4vkPf2DdQGN
+                            eTI4QhF8RV9HimuT/mDZc/msvyMWVU2Zj3WhpRQZTvj4BamdvXc2uq0jmd35x/aF
+                            xPBFO4T+H0s4ctz7hUBvnPDTQf9opEr9XnI2rUyXf9Kr0YODpL3rAgMBAAGjHzAd
+                            MBsGA1UdEQQUMBKHBH8AAAGHBMCoAAKHBKwadrEwDQYJKoZIhvcNAQELBQADggEB
+                            AKVJeOprhteSe0U4ySGqzECNh0Cc17GRomVSiJm+UqN8fXUI/Xvsx2TA3fmchaSS
+                            2HpTotRWsFMGpq5hbXirPFa6L0LdOR2niLMn0CbvwCKWdF5gP7+qWfP+AvWDOOYM
+                            AQWEYgGO3gQ/Hjkhu/dB+1ujV0nh/+avxXY0mieFZlg6/JhBP2hULWUHeODA+fUE
+                            IWjxXm466mT33vpd6sGBLi20WrRgPkeq/zIYxeX172/ENUHMJaN6YfHzI2re8/2Y
+                            urcpJRO3rwtaH7/5LZcJNUJhIjdVLbB5ANuE3T0AP2zhckRIeD94e5tvQse4Tq1I
+                            wxP9sHjP+JHpKCSGAc4mN+o=
+                            -----END CERTIFICATE-----"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: webserver
+spec:
+    type: NodePort
+    selector:
+        app: webserver
+    ports:
+        - protocol: TCP
+          port: 8001
+          targetPort: 80

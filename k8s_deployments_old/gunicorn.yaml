@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: gunicorn
+spec:
+    selector:
+        matchLabels:
+            app: gunicorn
+    template:
+        metadata:
+            labels:
+                app: gunicorn
+        spec:
+            containers:
+                - name: gunicorn
+                  image: francescorisso/dashboard_casa_gunicorn:latest
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  ports:
+                      - containerPort: 8000
+                  volumeMounts:
+                      - mountPath: /server/SQLsettings
+                        name: sql-settings
+            volumes:
+                - name: sql-settings
+                  persistentVolumeClaim:
+                      claimName: dashobard-casa-gunicorn-settings
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: gunicorn
+spec:
+    type: ClusterIP
+    selector:
+        app: gunicorn
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
