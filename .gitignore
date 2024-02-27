@@ -29,3 +29,7 @@ docker-compose.yaml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# my config files
+gunicorn-real.yaml
+nginx-real.yaml

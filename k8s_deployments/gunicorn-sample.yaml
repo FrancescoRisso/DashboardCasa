@@ -23,6 +23,17 @@ spec:
                   volumeMounts:
                       - mountPath: /server/SQLsettings
                         name: sql-settings
+                  env:
+                      - name: dialect
+                        value: "..."
+                      - name: username
+                        value: "..."
+                      - name: password
+                        value: "..."
+                      - name: host
+                        value: "..."
+                      - name: dbname
+                        value: "..."
             volumes:
                 - name: sql-settings
                   persistentVolumeClaim:
