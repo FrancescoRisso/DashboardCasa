@@ -18,5 +18,4 @@ COPY ./offline.html /app/offline.html
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-ENTRYPOINT mkdir -p /etc/ssl; echo "${SSL_key}" >> /etc/ssl/SSL_key.key; echo "${SSL_pem}" >> /etc/ssl/SSL_pem.pem;
-CMD nginx -g daemon off;
+ENTRYPOINT mkdir -p /etc/ssl; echo "${SSL_key}" >> /etc/ssl/SSL_key.key; echo "${SSL_pem}" >> /etc/ssl/SSL_pem.pem; nginx -g "daemon off;"
