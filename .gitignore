@@ -5,7 +5,7 @@ SQLsettings.json
 docker-compose.yaml
 
 # __pycache__
-/__pycache__
+**/__pycache__/*
 /server/__pycache__
 
 # dependencies
