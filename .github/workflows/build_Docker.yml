@@ -63,4 +63,4 @@ jobs:
                   context: .
                   file: ./gunicorn.Dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_gunicorn:latest
+                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_gunicorn:test
