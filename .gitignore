@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # For privacy reasons
-SQLsettings.json
+Settings.json
 docker-compose.yaml
 
 # __pycache__
@@ -33,3 +33,4 @@ yarn-error.log*
 # my config files
 gunicorn-real.yaml
 nginx-real.yaml
+**/schedules/*

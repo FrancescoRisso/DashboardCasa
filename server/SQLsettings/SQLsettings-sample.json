@@ -1,7 +1,0 @@
-{
-	"dialect": "mysql",
-	"username": "[your database username]",
-	"password": "[your database password]",
-	"host": "[the url for the database]",
-	"dbname": "[the name of the database]"
-}

@@ -1,8 +1,8 @@
 import json
 
 from flask import Flask
-from functions.constants import Room, main_rooms
-from functions.log import printLog
+from functions.constants import Room, main_rooms  # type: ignore
+from functions.log import printLog  # type: ignore
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 

@@ -31,3 +31,7 @@ main_rooms: list[Room] = [
 
 
 FORECAST_DAYS = 4
+
+
+SCHEDULES_FOLDER = "./schedules"
+SCHEDULES_FILE = f"{SCHEDULES_FOLDER}/config.txt"
