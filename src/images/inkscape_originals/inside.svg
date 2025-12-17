@@ -7,14 +7,45 @@
 	viewBox="0 0 1024.0 1024.0"
 	version="1.1"
 	id="SVGRoot"
+	sodipodi:docname="inside.svg"
+	inkscape:export-filename="C:\Users\Francesco\Documents\Programmazione\Sito casa\public\images\logo\maskable_icon\128.png"
+	inkscape:export-xdpi="12"
+	inkscape:export-ydpi="12"
+	inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+	xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
 	xmlns="http://www.w3.org/2000/svg"
 	xmlnsSvg="http://www.w3.org/2000/svg">
+	<sodipodi:namedview
+		id="namedview14"
+		pagecolor="#ffffff"
+		bordercolor="#666666"
+		borderopacity="1.0"
+		inkscape:pageshadow="2"
+		inkscape:pageopacity="0.0"
+		inkscape:pagecheckerboard="0"
+		inkscape:document-units="px"
+		showgrid="false"
+		inkscape:zoom="0.71339864"
+		inkscape:cx="157.69584"
+		inkscape:cy="491.31016"
+		inkscape:window-width="2400"
+		inkscape:window-height="1261"
+		inkscape:window-x="-9"
+		inkscape:window-y="-9"
+		inkscape:window-maximized="1"
+		inkscape:current-layer="g2489">
+		<inkscape:grid
+			type="xygrid"
+			id="grid20" />
+	</sodipodi:namedview>
 	<defs
 		id="defs9">
 		<clipPath
 			clipPathUnits="userSpaceOnUse"
 			id="clipPath1452">
 			<g
+				inkscape:label="Clip"
 				id="use1454"
 				style="stroke-width:1.00012;stroke-miterlimit:4;stroke-dasharray:none">
 				<path
@@ -27,6 +58,7 @@
 			clipPathUnits="userSpaceOnUse"
 			id="clipPath1463">
 			<g
+				inkscape:label="Clip"
 				id="use1465"
 				style="stroke-width:1.00012;stroke-miterlimit:4;stroke-dasharray:none">
 				<g
@@ -34,6 +66,7 @@
 					clip-path="url(#clipPath1452)"
 					style="stroke-width:1.00012;stroke-miterlimit:4;stroke-dasharray:none">
 					<g
+						inkscape:label="Clip"
 						id="g2288"
 						style="stroke-width:1.00012;stroke-miterlimit:4;stroke-dasharray:none">
 						<path
@@ -46,6 +79,8 @@
 		</clipPath>
 	</defs>
 	<g
+		inkscape:label="Livello 1"
+		inkscape:groupmode="layer"
 		id="layer1">
 		<g
 			id="g116"
@@ -106,7 +141,10 @@
 				</g>
 				<g
 					id="g7923"
-					transform="matrix(1.1256292,0,0,1.1256292,-910.20861,-68.500878)">
+					transform="matrix(1.1256292,0,0,1.1256292,-910.20861,-68.500878)"
+					inkscape:export-filename="C:\Users\Francesco\Documents\Programmazione\Sito casa\public\images\logo\1024.png"
+					inkscape:export-xdpi="96"
+					inkscape:export-ydpi="96">
 					<g
 						id="g7867"
 						transform="translate(6.4974957,-13.247642)">
@@ -212,7 +250,10 @@
 				</g>
 				<g
 					id="g1004"
-					transform="matrix(0.89310701,0,0,0.89310701,-708.22221,520.06762)">
+					transform="matrix(0.89310701,0,0,0.89310701,-708.22221,520.06762)"
+					inkscape:export-filename="C:\Users\Francesco\Documents\Programmazione\Sito casa\public\images\logo\1024.png"
+					inkscape:export-xdpi="96"
+					inkscape:export-ydpi="96">
 					<g
 						id="g948"
 						transform="translate(6.4974957,-13.247642)">
