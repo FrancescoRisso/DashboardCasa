@@ -3,7 +3,7 @@ from operator import itemgetter
 from urllib.request import Request, urlopen
 
 from flask import Flask
-from functions.log import printLog
+from functions.log import printLog  # type: ignore
 from lxml import etree
 
 

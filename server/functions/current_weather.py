@@ -2,7 +2,7 @@ import json
 from urllib.request import urlopen
 
 from flask import Flask
-from functions.log import printLog
+from functions.log import printLog  # type: ignore
 from lxml import etree
 
 
@@ -16,12 +16,12 @@ def weatherNow_def(app: Flask) -> str:
         page = page.read().decode("utf-8")
         page = etree.HTML(page)
 
-        svg = page.xpath(
+        svg = page.xpath(  # type: ignore
             "//div[contains(@class,'CurrentConditions--secondary')]//*[name()='svg']"
         )[0]
-        svg = etree.tostring(svg, pretty_print=True).decode("utf-8")
+        svg = etree.tostring(svg, pretty_print=True).decode("utf-8")  # type: ignore
 
-        temp = page.xpath(
+        temp = page.xpath(  # type: ignore
             "//span[contains(@class,'CurrentConditions--tempValue')]/text()"
         )[0]
 
