@@ -16,9 +16,7 @@ def weatherNow_def(app: Flask) -> str:
         page = page.read().decode("utf-8")
         page = etree.HTML(page)
 
-        svg = page.xpath(  # type: ignore
-            "//div[contains(@class,'CurrentConditions--secondary')]//*[name()='svg']"
-        )[0]
+        svg = page.xpath("//svg[contains(@class,'CurrentConditions--wxIcon--BOjPq')]")[0]  # type: ignore
         svg = etree.tostring(svg, pretty_print=True).decode("utf-8")  # type: ignore
 
         temp = page.xpath(  # type: ignore

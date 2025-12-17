@@ -127,7 +127,7 @@ class Previsioni extends React.Component {
 												text={
 													this.state.currentWeather === "Error"
 														? "Si è verificato un errore"
-														: this.state.currentWeather.temperature
+														: `${this.state.currentWeather.temperature}°C`
 												}
 												className="text-center"
 												recalc={this.state.currentWeatherResize}
