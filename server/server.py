@@ -6,7 +6,7 @@ from flask import Flask, request
 from functions.consumptions import consumptions_def
 from functions.current_temperatures import current_temperatures
 from functions.current_weather import weatherNow_def
-from functions.exec_on_cmi import set_on_off
+from functions.exec_on_cmi import change_temperature, set_on_off
 from functions.heating_status import get_heating_on_off, heating_status_def
 from functions.log import printLog
 from functions.schedules import (
@@ -102,6 +102,18 @@ def cron_action():
 @app.route("/api/toggleHeating", methods=["GET"])
 def toggle_heating():
     set_on_off(app, settings["CMI"], not get_heating_on_off(settings["CMI"]))
+    return "Done"
+
+
+@app.route("/api/changeHeatingTemp/<room_id>/<temp>", methods=["GET"])
+def change_heating_temp(room_id: str, temp: str):
+    change_temperature(app, settings["CMI"], int(room_id), float(temp), True)
+    return "Done"
+
+
+@app.route("/api/changeCoolingTemp/<room_id>/<temp>", methods=["GET"])
+def change_cooling_temp(room_id: str, temp: str):
+    change_temperature(app, settings["CMI"], int(room_id), float(temp), False)
     return "Done"
 
 
