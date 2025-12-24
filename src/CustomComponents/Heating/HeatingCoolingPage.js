@@ -113,6 +113,7 @@ class HeatingCoolingPage extends React.Component {
 							val={this.state.heating_status}
 							display={
 								this.state.heating_status &&
+								this.state.heating_status.rooms_status &&
 								this.state.heating_status?.rooms_status.map((room_details, index) => (
 									<RoomDisplay
 										key={index}
