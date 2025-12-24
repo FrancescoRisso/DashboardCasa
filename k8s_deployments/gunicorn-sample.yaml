@@ -23,21 +23,30 @@ spec:
                   volumeMounts:
                       - mountPath: /server/SQLsettings
                         name: sql-settings
+                      - mountPath: /server/schedules
+                        name: schedules
                   env:
-                      - name: dialect
+                      - name: SQL_dialect
                         value: "..."
-                      - name: username
+                      - name: SQL_username
                         value: "..."
-                      - name: password
+                      - name: SQL_password
                         value: "..."
-                      - name: host
+                      - name: SQL_host
                         value: "..."
-                      - name: dbname
+                      - name: SQL_dbname
+                        value: "..."
+                      - name: CMI_username
+                        value: "..."
+                      - name: CMI_password
                         value: "..."
             volumes:
                 - name: sql-settings
                   persistentVolumeClaim:
                       claimName: dashobard-casa-gunicorn-settings
+                - name: schedules
+                  persistentVolumeClaim:
+                      claimName: dashobard-casa-gunicorn-schedules
 
 ---
 apiVersion: v1

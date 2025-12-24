@@ -14,7 +14,7 @@ def current_temperatures(app: Flask, settings: dict[str, str], internal: bool) -
 
     try:
         SQLengine = create_engine(
-            f"{settings['dialect']}://{settings['username']}:{settings['password']}@{settings['host']}/{settings['dbname']}"
+            f"{settings['SQL_dialect']}://{settings['SQL_username']}:{settings['SQL_password']}@{settings['SQL_host']}/{settings['SQL_dbname']}"
         )
     except SQLAlchemyError as e:
         printLog(

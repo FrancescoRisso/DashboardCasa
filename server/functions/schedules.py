@@ -130,6 +130,7 @@ def get_schedules(app: Flask) -> str:
 
 
 def override_schedules(app: Flask, data: bytes):
+    printLog(app, "Info", f"Overriding schedules")
     parsed = json.loads(data)
     assert isinstance(parsed, list)
 
@@ -160,7 +161,7 @@ def override_schedules(app: Flask, data: bytes):
 
     update_cron(schedules)
 
-    return ""
+    return "{}"
 
 
 def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
@@ -187,6 +188,7 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
 def update_cron(schedules: list[Schedule] | None = None):
     schedules = schedules or parse_schedules()
 
+    return
     crons = set([schedule.to_cron() for schedule in schedules])
     cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
 

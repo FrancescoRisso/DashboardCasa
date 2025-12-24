@@ -13,7 +13,7 @@ def describe_room(
 ) -> dict[str, str | bool]:
     cmi_reader = requests.get(
         f"http://192.168.0.195/schematic_files/{room.page(heating)}.cgi",
-        auth=HTTPBasicAuth(settings["username"], settings["password"]),
+        auth=HTTPBasicAuth(settings["CMI_username"], settings["CMI_password"]),
     )
 
     cmi_xml = etree.XML(f"<data>{cmi_reader.text}</data>")
@@ -34,7 +34,7 @@ def describe_room(
 def get_heating_on_off(settings: dict[str, str]) -> bool:
     cmi_reader = requests.get(
         f"http://192.168.0.195/schematic_files/1.cgi",
-        auth=HTTPBasicAuth(settings["username"], settings["password"]),
+        auth=HTTPBasicAuth(settings["CMI_username"], settings["CMI_password"]),
     )
 
     cmi_xml = etree.XML(f"<data>{cmi_reader.text}</data>")

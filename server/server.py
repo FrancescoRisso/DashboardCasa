@@ -27,27 +27,24 @@ subprocess.run(["chmod", "777", "/var/spool/cron/crontabs"])
 
 update_cron()
 
-pre = ""
 try:
     with open("Settings/Settings.json") as f:
         settings = json.load(f)
 
-    for key in ["SQL", "CMI"]:
+    for key in [
+        "SQL_dialect",
+        "SQL_username",
+        "SQL_password",
+        "SQL_host",
+        "SQL_dbname",
+        "CMI_username",
+        "CMI_password",
+    ]:
         settings[key]
-
-    pre = "SQL/"
-    for key in ["dialect", "username", "password", "host", "dbname"]:
-        settings["SQL"][key]
-
-    pre = "CMI/"
-    for key in ["username", "password"]:
-        settings["CMI"][key]
 
 except Exception as e:
     missing = e.__str__().replace("'", "")
-    printLog(
-        app, "Err", f"Settings are missing or incomplete ({pre}{missing}): aborting"
-    )
+    printLog(app, "Err", f"Settings are missing or incomplete ({missing}): aborting")
     quit(-1)
 
 
@@ -63,22 +60,22 @@ def weatherForecast():
 
 @app.route("/api/tempInterna")
 def tempInterna():
-    return current_temperatures(app, settings["SQL"], True)
+    return current_temperatures(app, settings, True)
 
 
 @app.route("/api/tempEsterna")
 def tempEsterna():
-    return current_temperatures(app, settings["SQL"], False)
+    return current_temperatures(app, settings, False)
 
 
 @app.route("/api/heatingStatus")
 def heating_status():
-    return heating_status_def(app, True, settings["CMI"])
+    return heating_status_def(app, True, settings)
 
 
 @app.route("/api/coolingStatus")
 def cooling_status():
-    return heating_status_def(app, False, settings["CMI"])
+    return heating_status_def(app, False, settings)
 
 
 @app.route("/api/consumptions")
@@ -96,24 +93,24 @@ def schedules():
 
 @app.route("/api/cronAction", methods=["GET"])
 def cron_action():
-    return cron_action_def(app, settings["CMI"])
+    return cron_action_def(app, settings)
 
 
 @app.route("/api/toggleHeating", methods=["GET"])
 def toggle_heating():
-    set_on_off(app, settings["CMI"], not get_heating_on_off(settings["CMI"]))
+    set_on_off(app, settings, not get_heating_on_off(settings))
     return "{}"
 
 
 @app.route("/api/changeHeatingTemp/<room_id>/<temp>", methods=["GET"])
 def change_heating_temp(room_id: str, temp: str):
-    change_temperature(app, settings["CMI"], int(room_id), float(temp), True)
+    change_temperature(app, settings, int(room_id), float(temp), True)
     return "{}"
 
 
 @app.route("/api/changeCoolingTemp/<room_id>/<temp>", methods=["GET"])
 def change_cooling_temp(room_id: str, temp: str):
-    change_temperature(app, settings["CMI"], int(room_id), float(temp), False)
+    change_temperature(app, settings, int(room_id), float(temp), False)
     return "{}"
 
 
