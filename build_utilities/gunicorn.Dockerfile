@@ -19,6 +19,8 @@ RUN sed -i '1s@^@import os\n@' server.py
 RUN sed -ir 's@.*settings.*load(f)@@' server.py
 RUN sed -ir 's@with.*@settings = dict(os.environ.items())@' server.py
 
+RUN chmod 777 /var/spool/cron/crontabs
+
 EXPOSE 8000
 
 CMD  gunicorn -b 0.0.0.0:8000 -w ${workers} --log-level info server:app
