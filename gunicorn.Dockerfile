@@ -12,6 +12,7 @@ RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-d
 
 RUN pip3 install --upgrade pip
 
+RUN pip3 install gunicorn
 RUN pip3 install -r requirements.txt
 
 RUN sed -i '1s@^@import os\n@' server.py
