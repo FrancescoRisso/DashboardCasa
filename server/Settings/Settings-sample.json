@@ -1,13 +1,9 @@
 {
-	"SQL": {
-		"dialect": "mysql",
-		"username": "[your database username]",
-		"password": "[your database password]",
-		"host": "[the url for the database]",
-		"dbname": "[the name of the database]"
-	},
-	"CMI": {
-		"username": "[your cmi username]",
-		"password": "[your cmi password]"
-	}
+	"SQL_dialect": "mysql",
+	"SQL_username": "[your database username]",
+	"SQL_password": "[your database password]",
+	"SQL_host": "[the url for the database]",
+	"SQL_dbname": "[the name of the database]",
+	"CMI_username": "[your cmi username]",
+	"CMI_password": "[your cmi password]"
 }

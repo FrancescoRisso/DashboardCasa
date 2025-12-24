@@ -10,7 +10,7 @@ def set_on_off(app: Flask, settings: dict[str, str], on: bool):
 
     requests.get(
         f"http://192.168.0.195/INCLUDE/change.cgi?changeadrx2=0100004F00B100&changetox2={0 if on else 1}",
-        auth=HTTPBasicAuth(settings["username"], settings["password"]),
+        auth=HTTPBasicAuth(settings["CMI_username"], settings["CMI_password"]),
         headers={"Referer": "http://192.168.0.195/schema.html"},
     )
 
@@ -35,6 +35,6 @@ def change_temperature(
 
     requests.get(
         f"http://192.168.0.195/INCLUDE/change.cgi?changeadrx2={address}&changetox2={temperature}",
-        auth=HTTPBasicAuth(settings["username"], settings["password"]),
+        auth=HTTPBasicAuth(settings["CMI_username"], settings["CMI_password"]),
         headers={"Referer": "http://192.168.0.195/schema.html"},
     )
