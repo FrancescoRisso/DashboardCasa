@@ -26,20 +26,29 @@ dependences:
 import React from "react";
 import DateTitle from "./DateTitle";
 import Forecasts from "./Forecasts";
-import IsOnOff from "./IsOnOff";
 import Temperature from "./Temperature";
 import Symbols from "./Symbols";
 import Electricity from "./Electricity";
 import Context from "./Context";
+import AdaptiveFontSize from "./AdaptiveFontSize";
+import Heating from "../images/heating.svg";
+import Cooling from "../images/cooling.svg";
+import { Link } from "react-router-dom";
+
+const pages = [
+	{ name: "Riscaldamento", link: "/heating" },
+	{ name: "Raffreddamento", link: "/cooling" },
+];
 
 class MainPage extends React.Component {
 	static contextType = Context;
 
-	componentDidMount = () => {
-		this.context.AdaptiveFontSize.registerGroup("titles-temperatures-titles");
-		this.context.AdaptiveFontSize.registerGroup("titles-temperatures-values");
-		this.context.AdaptiveFontSize.registerGroup("titles-onOff");
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			updateFontSize: false,
+		};
+	}
 
 	render() {
 		if (this.props.orientation === "horizontal")
@@ -79,12 +88,21 @@ class MainPage extends React.Component {
 						</div>
 					</div>
 					<div className="row py-2 mx-auto h-15">
-						<div className="col-6 m-0 p-0 pr-1 h-100percent">
-							<IsOnOff title="Riscaldamento" fontSizeGroup="titles-onOff" />
-						</div>
-						<div className="col-6 m-0 p-0 pl-1 h-100percent">
-							<IsOnOff title="Raffrescamento" fontSizeGroup="titles-onOff" />
-						</div>
+						{pages.map((page) => (
+							<div className="col-6 m-0 p-0 pr-1 h-100percent" key={page.name}>
+								<Link to={page.link}>
+									<button className="w-100percent h-100percent btn btn-primary">
+										<AdaptiveFontSize
+											className="text-center mb-0"
+											text={page.name}
+											group={"titles-onOff"}
+											icon={page.name === "Riscaldamento" ? Heating : Cooling}
+											recalc={this.state.updateFontSize}
+										/>
+									</button>
+								</Link>
+							</div>
+						))}
 					</div>
 					<Symbols />
 				</div>
@@ -127,43 +145,22 @@ class MainPage extends React.Component {
 						<Electricity arrange="row" />
 					</div>
 				</div>
-				{/* <div className="row m-0 h-55">
-					<div className="px-0 col-4 h-100percent pr-1">
-						<div className="h-50percent pb-1">
-							<div className="h-100percent fill-primary-light rounded-lg">
-								<Temperature
-									title="Interna"
-									fontSizeGroupTitles="titles-temperatures-titles"
-									fontSizeGroupValues="titles-temperatures-values"
-								/>
-							</div>
-						</div>
-						<div className="h-50percent pt-1">
-							<div className="h-100percent fill-primary-light rounded-lg">
-								<Temperature
-									title="Esterna"
-									fontSizeGroupTitles="titles-temperatures-titles"
-									fontSizeGroupValues="titles-temperatures-values"
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="px-0 col-4 h-100percent">
-						<div className="mx-1 h-100percent fill-primary-light rounded-lg">
-							<Previsioni arrange="col" />
-						</div>
-					</div>
-					<div className="px-0 pl-1 col-4 h-100percent">
-						<Electricity arrange="col"/>
-					</div>
-				</div> */}
 				<div className="py-2 mx-auto h-20">
-					<div className="m-0 p-0 pb-1 h-50percent">
-						<IsOnOff title="Riscaldamento" fontSizeGroup="titles-onOff" />
-					</div>
-					<div className="m-0 p-0 pt-1 h-50percent">
-						<IsOnOff title="Raffrescamento" fontSizeGroup="titles-onOff" />
-					</div>
+					{pages.map((page) => (
+						<div className="m-0 p-0 pb-1 h-50percent" key={page.name}>
+							<Link to={page.link}>
+								<button className="w-100percent h-100percent btn btn-primary">
+									<AdaptiveFontSize
+										className="text-center mb-0"
+										text={page.name}
+										group={"titles-onOff"}
+										icon={page.name === "Riscaldamento" ? Heating : Cooling}
+										recalc={this.state.updateFontSize}
+									/>
+								</button>
+							</Link>
+						</div>
+					))}
 				</div>
 				<Symbols />
 			</div>

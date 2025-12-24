@@ -1,5 +1,5 @@
-const apiCall = async (link) => {
-	let response = await fetch(`/api${link}`);
+const apiCall = async (link, params = {}) => {
+	let response = await fetch(`/api${link}`, params);
 	let data = await response.json();
 
 	if (response.ok) {

@@ -24,15 +24,15 @@ dependences:
 
 import React from "react";
 import "./App.css";
-import MainPage from "./CustomComponents/MainPage";
 import Context from "./CustomComponents/Context";
+import MyRouter from "./CustomComponents/MyRouter";
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isLandscape: window.matchMedia("(orientation: landscape)").matches,
-			AdaptiveFontSizeGroups: {}
+			AdaptiveFontSizeGroups: {},
 		};
 	}
 
@@ -82,7 +82,7 @@ class App extends React.Component {
 		this.setState((state) => {
 			state.AdaptiveFontSizeGroups[group].instances[item] = font;
 			state.AdaptiveFontSizeGroups[group].fontSize = Math.min(
-				...Object.values(state.AdaptiveFontSizeGroups[group].instances)
+				...Object.values(state.AdaptiveFontSizeGroups[group].instances),
 			);
 
 			return { AdaptiveFontSizeGroups: state.AdaptiveFontSizeGroups };
@@ -97,11 +97,11 @@ class App extends React.Component {
 						groups: this.state.AdaptiveFontSizeGroups,
 						registerGroup: this.registerAdaptiveFontSizeGroup,
 						//registerInstanceInGroup: this.registerAdaptiveFontSizeInstancesInGroup,
-						changeFont: this.changeAdaptiveFontSizeFont
-					}
+						changeFont: this.changeAdaptiveFontSizeFont,
+					},
 				}}
 			>
-				<MainPage orientation={this.state.isLandscape ? "horizontal" : "vertical"} />
+				<MyRouter orientation={this.state.isLandscape ? "horizontal" : "vertical"} />
 			</Context.Provider>
 		);
 	}
