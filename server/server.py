@@ -23,7 +23,7 @@ log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 
-subprocess.run(["sudo", "chmod", "777", "/var/spool/cron/crontabs"])
+subprocess.run(["chmod", "777", "/var/spool/cron/crontabs"])
 
 update_cron()
 
@@ -102,19 +102,19 @@ def cron_action():
 @app.route("/api/toggleHeating", methods=["GET"])
 def toggle_heating():
     set_on_off(app, settings["CMI"], not get_heating_on_off(settings["CMI"]))
-    return "Done"
+    return "{}"
 
 
 @app.route("/api/changeHeatingTemp/<room_id>/<temp>", methods=["GET"])
 def change_heating_temp(room_id: str, temp: str):
     change_temperature(app, settings["CMI"], int(room_id), float(temp), True)
-    return "Done"
+    return "{}"
 
 
 @app.route("/api/changeCoolingTemp/<room_id>/<temp>", methods=["GET"])
 def change_cooling_temp(room_id: str, temp: str):
     change_temperature(app, settings["CMI"], int(room_id), float(temp), False)
-    return "Done"
+    return "{}"
 
 
 if __name__ == "__main__":
