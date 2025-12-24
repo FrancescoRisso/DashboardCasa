@@ -8,7 +8,7 @@ ENV workers=$workers
 COPY ./server/ .
 
 RUN apt-get update
-RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev
+RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev cron
 
 RUN pip3 install --upgrade pip
 
