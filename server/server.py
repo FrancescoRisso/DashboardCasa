@@ -23,7 +23,7 @@ log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 
-subprocess.run(["chmod", "777", "/var/spool/cron/crontabs"])
+# subprocess.run(["chmod", "777", "/var/spool/cron/crontabs"])
 
 update_cron()
 
