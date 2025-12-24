@@ -1,19 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.ff8b8d41.css",
-    "main.js": "/static/js/main.adcae3a0.js",
+    "main.css": "/static/css/main.4f0c2ad8.css",
+    "main.js": "/static/js/main.13a057ce.js",
     "static/js/453.b7e4e1bc.chunk.js": "/static/js/453.b7e4e1bc.chunk.js",
+    "static/media/cooling-off.svg": "/static/media/cooling-off.a3375b1cb49a2a9805e86cb21b5e69cd.svg",
     "static/media/cooling.svg": "/static/media/cooling.e6b53785c8ce556f7d1c92590f9ed37a.svg",
+    "static/media/heating-off.svg": "/static/media/heating-off.2cbb5f5233cc20678f3bf850c6b4a779.svg",
     "static/media/heating.svg": "/static/media/heating.442dfb577513917283a529eed7d16b4a.svg",
     "static/media/outside2.svg": "/static/media/outside2.9ae4c0b87d514fba574d69bcd3dd3c0e.svg",
     "static/media/inside.svg": "/static/media/inside.0b56963ced0824d5c0dce988428a1377.svg",
+    "static/media/calendar.svg": "/static/media/calendar.254f45a209d48662a2c00f16b7207a8c.svg",
+    "static/media/thermometer-arrow.svg": "/static/media/thermometer-arrow.8decc30a3cda105c18769d58567a63d0.svg",
+    "static/media/pencil.svg": "/static/media/pencil.e9166fc2557f3e7d63b2657704597ce7.svg",
+    "static/media/thermometer.svg": "/static/media/thermometer.24d62f47ae714989128446dab3af55df.svg",
     "index.html": "/index.html",
-    "main.ff8b8d41.css.map": "/static/css/main.ff8b8d41.css.map",
-    "main.adcae3a0.js.map": "/static/js/main.adcae3a0.js.map",
+    "static/media/trash.svg": "/static/media/trash.8f5c008f20af7908b93a59da305371ff.svg",
+    "static/media/back.svg": "/static/media/back.dd63a1a7efb6dddc07bd41b22ed1701f.svg",
+    "main.4f0c2ad8.css.map": "/static/css/main.4f0c2ad8.css.map",
+    "main.13a057ce.js.map": "/static/js/main.13a057ce.js.map",
     "453.b7e4e1bc.chunk.js.map": "/static/js/453.b7e4e1bc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ff8b8d41.css",
-    "static/js/main.adcae3a0.js"
+    "static/css/main.4f0c2ad8.css",
+    "static/js/main.13a057ce.js"
   ]
 }
