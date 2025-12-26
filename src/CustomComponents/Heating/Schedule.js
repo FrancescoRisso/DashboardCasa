@@ -102,7 +102,7 @@ class Schedule extends React.Component {
 									justifyContent: "space-between",
 								}}
 							>
-								{(this.horiz ? [0, 1, 2, 3, 4, 5, 6] : [0, 1, 2, 3]).map((day) => (
+								{(this.horiz ? [1, 2, 3, 4, 5, 6, 0] : [1, 2, 3, 4]).map((day) => (
 									<Day
 										day={day}
 										key={day}
@@ -131,7 +131,7 @@ class Schedule extends React.Component {
 								>
 									<span></span>
 									<span></span>
-									{[4, 5, 6].map((day) => (
+									{[5, 6, 0].map((day) => (
 										<Day
 											day={day}
 											key={day}

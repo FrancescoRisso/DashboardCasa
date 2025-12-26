@@ -71,6 +71,8 @@ class Schedule:
 
         if all(self.__schedule):
             dow = "*"
+        elif first_true == last_true:
+            dow = f"{first_true}"
         elif all(self.__schedule[first_true:last_true]):
             dow = f"{first_true}-{last_true}"
         else:

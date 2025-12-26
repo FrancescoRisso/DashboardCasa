@@ -31,7 +31,7 @@ const color_off = "#999";
 class Day extends React.Component {
 	horiz = this.props.orientation === "horizontal";
 
-	day = "LMMGVSD"[this.props.day];
+	day = "DLMMGVS"[this.props.day];
 
 	render() {
 		const on = this.props.on[this.props.day];
