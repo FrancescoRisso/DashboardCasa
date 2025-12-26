@@ -78,7 +78,7 @@ class Schedule:
         else:
             dow = ",".join([f"{day}" for (day, on) in enumerate(self.__schedule) if on])
 
-        return f"{m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null\n"
+        return f"{m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:8000/api/cronAction &> /dev/null\n"
 
     def execute_if_now(
         self,
