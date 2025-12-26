@@ -42,7 +42,7 @@ jobs:
               with:
                   find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [ERR ] '
                   replace: 'app.logger.error(f"'
-                  include: "build/server/log.py"
+                  include: "build/server/functions/log.py"
                   "regex": false
 
             - name: Update info logging in the build server
@@ -50,7 +50,7 @@ jobs:
               with:
                   find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [INFO] '
                   replace: 'app.logger.info(f"'
-                  include: "build/server/log.py"
+                  include: "build/server/functions/log.py"
                   "regex": false
 
             - name: Push to the build branch
