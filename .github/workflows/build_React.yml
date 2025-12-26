@@ -53,6 +53,14 @@ jobs:
                   include: "build/server/functions/log.py"
                   "regex": false
 
+            - name: Update port number in the cron generation
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: ':3001'
+                  replace: ':8000'
+                  include: "build/server/functions/schedules.py"
+                  "regex": false
+
             - name: Push to the build branch
               uses: s0/git-publish-subdir-action@develop
               env:
