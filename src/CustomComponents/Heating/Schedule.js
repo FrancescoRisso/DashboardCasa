@@ -136,7 +136,15 @@ class Schedule extends React.Component {
 											day={day}
 											key={day}
 											on={this.state.schedule}
-											update={this.setState}
+											invert={() =>
+												this.setState((prev) => {
+													return {
+														schedule: prev.schedule.map((val, index) =>
+															index === day ? !val : val,
+														),
+													};
+												})
+											}
 											orientation={this.props.orientation}
 										/>
 									))}
