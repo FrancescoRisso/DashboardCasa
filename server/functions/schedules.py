@@ -11,8 +11,6 @@ from functions.constants import SCHEDULES_FILE, SCHEDULES_FOLDER  # type: ignore
 from functions.exec_on_cmi import set_on_off  # type: ignore
 from functions.log import printLog  # type: ignore
 
-app_glob = None
-
 
 class Schedule:
     def __init__(
@@ -164,7 +162,7 @@ def override_schedules(app: Flask, data: bytes):
     with open(SCHEDULES_FILE, "w") as f:
         f.write("\n".join([schedule.toJSON() for schedule in schedules]))
 
-    update_cron(app, schedules)
+    update_cron(schedules)
 
     return "{}"
 
@@ -190,24 +188,12 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
     return "Done"
 
 
-def update_cron(app: Flask, schedules: list[Schedule] | None = None):
+def update_cron(schedules: list[Schedule] | None = None):
     schedules = schedules or parse_schedules()
-
-    global app_glob
-    app_glob = app
-
-    for schedule in schedules:
-        printLog(app, "info", f"Schedule: {schedule.toJSON()}")
-        printLog(app, "info", f"Its cron: {schedule.to_cron()}")
 
     crons = set([schedule.to_cron() for schedule in schedules])
     cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
 
-    printLog(app, "info", f"Adding lines to cronfile: {cron_path}")
-    for cron in crons:
-        printLog(app, "info", f"Line: {cron}")
-
-    return
     with open(cron_path, "w") as file:
         file.write("".join([cron for cron in crons]))
 
