@@ -10,6 +10,10 @@ COPY ./server/ .
 RUN apt-get update
 RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev cron
 
+# tmp
+RUN apt-get install --reinstall rsyslog
+RUN service rsyslog restart
+
 RUN pip3 install --upgrade pip
 
 RUN pip3 install gunicorn
