@@ -40,6 +40,8 @@ spec:
                         value: "..."
                       - name: CMI_password
                         value: "..."
+                      - name: TZ
+                        value: Europe/Rome
             volumes:
                 - name: sql-settings
                   persistentVolumeClaim:
