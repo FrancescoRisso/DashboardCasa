@@ -159,7 +159,7 @@ def override_schedules(app: Flask, data: bytes):
     with open(SCHEDULES_FILE, "w") as f:
         f.write("\n".join([schedule.toJSON() for schedule in schedules]))
 
-    update_cron(schedules)
+    update_cron(app, schedules)
 
     return "{}"
 
@@ -185,14 +185,17 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
     return "Done"
 
 
-def update_cron(schedules: list[Schedule] | None = None):
+def update_cron(app, schedules: list[Schedule] | None = None):
     schedules = schedules or parse_schedules()
 
     crons = set([schedule.to_cron() for schedule in schedules])
     cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
 
+    printLog(app, "info", f"Adding lines to cronfile: {cron_path}")
     with open(cron_path, "w") as file:
         file.write("".join([cron for cron in crons]))
+        for cron in crons:
+        	printLog(app, "info", f"Line: {cron}")
 
     os.chmod(cron_path, 0o600)
 
