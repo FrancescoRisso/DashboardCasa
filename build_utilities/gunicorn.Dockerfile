@@ -12,7 +12,7 @@ RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-d
 
 # tmp
 RUN apt-get install -y rsyslog
-RUN service rsyslog restart
+# RUN service rsyslog restart
 
 RUN pip3 install --upgrade pip
 
