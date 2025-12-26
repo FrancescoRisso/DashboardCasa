@@ -200,6 +200,7 @@ def update_cron(app: Flask, schedules: list[Schedule] | None = None):
 
     for schedule in schedules:
         printLog(app, "info", f"Schedule: {schedule.toJSON()}")
+        printLog(app, "info", f"Its cron: {schedule.to_cron()}")
 
     crons = set([schedule.to_cron() for schedule in schedules])
     cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
