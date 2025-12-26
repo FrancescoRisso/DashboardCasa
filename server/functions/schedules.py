@@ -11,6 +11,8 @@ from functions.constants import SCHEDULES_FILE, SCHEDULES_FOLDER  # type: ignore
 from functions.exec_on_cmi import set_on_off  # type: ignore
 from functions.log import printLog  # type: ignore
 
+app_glob = None
+
 
 class Schedule:
     def __init__(
@@ -73,6 +75,11 @@ class Schedule:
         else:
             dow = ",".join([f"{day}" for (day, on) in enumerate(self.__schedule) if on])
 
+        printLog(
+            app_glob,
+            f"info",
+            f"Building cron line: {m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null",
+        )
         return f"{m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null\n"
 
     def execute_if_now(
@@ -185,17 +192,25 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
     return "Done"
 
 
-def update_cron(app, schedules: list[Schedule] | None = None):
+def update_cron(app: Flask, schedules: list[Schedule] | None = None):
     schedules = schedules or parse_schedules()
+
+    global app_glob
+    app_glob = app
+
+    for schedule in schedules:
+        printLog(app, "info", f"Schedule: {schedule.toJSON()}")
 
     crons = set([schedule.to_cron() for schedule in schedules])
     cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
 
     printLog(app, "info", f"Adding lines to cronfile: {cron_path}")
+    for cron in crons:
+        printLog(app, "info", f"Line: {cron}")
+
+    return
     with open(cron_path, "w") as file:
         file.write("".join([cron for cron in crons]))
-        for cron in crons:
-            printLog(app, "info", f"Line: {cron}")
 
     os.chmod(cron_path, 0o600)
 
