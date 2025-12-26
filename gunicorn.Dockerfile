@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev cron
 
 # tmp
-RUN apt-get install rsyslog
+RUN apt-get install -y rsyslog
 RUN service rsyslog restart
 
 RUN pip3 install --upgrade pip
