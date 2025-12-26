@@ -60,6 +60,9 @@ class Schedule:
         if not self.__active and not self.__paused_once:
             return ""
 
+        if all([not day for day in self.__schedule]):
+            return ""
+
         m = self.__minute
         h = self.__hour
         dom = "*"
@@ -75,11 +78,6 @@ class Schedule:
         else:
             dow = ",".join([f"{day}" for (day, on) in enumerate(self.__schedule) if on])
 
-        printLog(
-            app_glob,
-            f"info",
-            f"Building cron line: {m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null",
-        )
         return f"{m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null\n"
 
     def execute_if_now(
