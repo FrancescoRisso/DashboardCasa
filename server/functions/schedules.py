@@ -196,4 +196,4 @@ def update_cron(schedules: list[Schedule] | None = None):
 
     os.chmod(cron_path, 0o600)
 
-    subprocess.run(["sudo", "service", "cron", "restart"])
+    subprocess.run(["service", "cron", "restart"])
