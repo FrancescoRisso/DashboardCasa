@@ -14,6 +14,8 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install gunicorn
 RUN pip3 install -r requirements.txt
+RUN pip3 install mysql-connector-python
+RUN pip3 install mysqlclient
 
 RUN sed -i '1s@^@import os\n@' server.py
 RUN sed -ir 's@.*settings.*load(f)@@' server.py
