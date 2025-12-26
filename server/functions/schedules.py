@@ -195,7 +195,7 @@ def update_cron(app, schedules: list[Schedule] | None = None):
     with open(cron_path, "w") as file:
         file.write("".join([cron for cron in crons]))
         for cron in crons:
-        	printLog(app, "info", f"Line: {cron}")
+            printLog(app, "info", f"Line: {cron}")
 
     os.chmod(cron_path, 0o600)
 
