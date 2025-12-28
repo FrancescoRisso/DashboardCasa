@@ -1,6 +1,5 @@
 import json
 import logging
-import subprocess
 
 from flask import Flask, request
 from functions.consumptions import consumptions_def
@@ -13,7 +12,6 @@ from functions.schedules import (
     cron_action_def,
     get_schedules,
     override_schedules,
-    update_cron,
 )
 from functions.weather_forecast import weatherForecast_def
 
@@ -22,10 +20,6 @@ log.setLevel(logging.ERROR)
 
 
 app = Flask(__name__)
-
-# subprocess.run(["chmod", "777", "/var/spool/cron/crontabs"])
-
-# update_cron()
 
 try:
     with open("Settings/Settings.json") as f:
