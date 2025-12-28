@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+    name: eval-schedules
+spec:
+    schedule: "*/1 * * * *"
+    concurrencyPolicy: Forbid
+    successfulJobsHistoryLimit: 1
+    failedJobsHistoryLimit: 1
+    jobTemplate:
+        spec:
+            template:
+                spec:
+                    containers:
+                        - name: callout
+                          image: buildpack-deps:curl
+                          args:
+                              - /bin/sh
+                              - -ec
+                              - curl http://gunicorn:8000/api/cronAction
+                    restartPolicy: Never

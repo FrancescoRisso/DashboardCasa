@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import getpass
 import json
 import os
-import subprocess
 from datetime import datetime
 
 from flask import Flask
@@ -53,32 +51,6 @@ class Schedule:
             paused_once=dict["paused_once"],
             schedule=dict["schedule"],
         )
-
-    def to_cron(self) -> str:
-        if not self.__active and not self.__paused_once:
-            return ""
-
-        if all([not day for day in self.__schedule]):
-            return ""
-
-        m = self.__minute
-        h = self.__hour
-        dom = "*"
-        mon = "*"
-
-        first_true = self.__schedule.index(True)
-        last_true = len(self.__schedule) - 1 - self.__schedule[::-1].index(True)
-
-        if all(self.__schedule):
-            dow = "*"
-        elif first_true == last_true:
-            dow = f"{first_true}"
-        elif all(self.__schedule[first_true:last_true]):
-            dow = f"{first_true}-{last_true}"
-        else:
-            dow = ",".join([f"{day}" for (day, on) in enumerate(self.__schedule) if on])
-
-        return f"{m} {h} {dom} {mon} {dow} wget -qO- 127.0.0.1:3001/api/cronAction &> /dev/null\n"
 
     def execute_if_now(
         self,
@@ -164,8 +136,6 @@ def override_schedules(app: Flask, data: bytes):
     with open(SCHEDULES_FILE, "w") as f:
         f.write("\n".join([schedule.toJSON() for schedule in schedules]))
 
-    update_cron(schedules)
-
     return "{}"
 
 
@@ -189,18 +159,4 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
         with open(SCHEDULES_FILE, "w") as f:
             f.write("\n".join([schedule.toJSON() for schedule in schedules]))
 
-    return "Done"
-
-
-def update_cron(schedules: list[Schedule] | None = None):
-    schedules = schedules or parse_schedules()
-
-    crons = set([schedule.to_cron() for schedule in schedules])
-    cron_path = f"/var/spool/cron/crontabs/{getpass.getuser()}"
-
-    with open(cron_path, "w") as file:
-        file.write("".join([cron for cron in crons]))
-
-    os.chmod(cron_path, 0o600)
-
-    subprocess.run(["service", "cron", "restart"])
+    return "{}"

@@ -8,11 +8,7 @@ ENV workers=$workers
 COPY ./server/ .
 
 RUN apt-get update
-RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev cron
-
-# tmp
-RUN apt-get install -y rsyslog
-# RUN service rsyslog restart
+RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev
 
 RUN pip3 install --upgrade pip
 
@@ -24,8 +20,6 @@ RUN pip3 install mysqlclient
 RUN sed -i '1s@^@import os\n@' server.py
 RUN sed -ir 's@.*settings.*load(f)@@' server.py
 RUN sed -ir 's@with.*@settings = dict(os.environ.items())@' server.py
-
-RUN chmod 777 /var/spool/cron/crontabs
 
 EXPOSE 8000
 
