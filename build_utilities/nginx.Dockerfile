@@ -18,4 +18,6 @@ COPY ./offline.html /app/offline.html
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
+EXPOSE 443
+
 ENTRYPOINT mkdir -p /etc/ssl; echo "${SSL_key}" | sed 's/^ //' >> /etc/ssl/SSL_key.key; echo "${SSL_pem}" | sed 's/^ //' >> /etc/ssl/SSL_pem.pem; nginx -g "daemon off;"
