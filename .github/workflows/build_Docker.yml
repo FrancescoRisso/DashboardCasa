@@ -35,7 +35,7 @@ jobs:
                   context: .
                   file: ./nginx.Dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_nginx:test
+                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_nginx:latest
 
     gunicornDocker:
         runs-on: ubuntu-latest
@@ -63,4 +63,4 @@ jobs:
                   context: .
                   file: ./gunicorn.Dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_gunicorn:test
+                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_gunicorn:latest
