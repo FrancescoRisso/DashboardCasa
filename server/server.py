@@ -8,11 +8,7 @@ from functions.current_weather import weatherNow_def
 from functions.exec_on_cmi import change_temperature, set_on_off
 from functions.heating_status import get_heating_on_off, heating_status_def
 from functions.log import printLog
-from functions.schedules import (
-    cron_action_def,
-    get_schedules,
-    override_schedules,
-)
+from functions.schedules import cron_action_def, get_schedules, override_schedules
 from functions.weather_forecast import weatherForecast_def
 
 log = logging.getLogger("werkzeug")
@@ -64,11 +60,16 @@ def tempEsterna():
 
 @app.route("/api/heatingStatus")
 def heating_status():
+    return json.dumps(get_heating_on_off(app, settings))
+
+
+@app.route("/api/heatingTemperatures")
+def heating_temps():
     return heating_status_def(app, True, settings)
 
 
-@app.route("/api/coolingStatus")
-def cooling_status():
+@app.route("/api/coolingTemperatures")
+def cooling_temps():
     return heating_status_def(app, False, settings)
 
 
@@ -92,7 +93,7 @@ def cron_action():
 
 @app.route("/api/toggleHeating", methods=["GET"])
 def toggle_heating():
-    set_on_off(app, settings, not get_heating_on_off(settings))
+    set_on_off(app, settings, not get_heating_on_off(None, settings))
     return "{}"
 
 

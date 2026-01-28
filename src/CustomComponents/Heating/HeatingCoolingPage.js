@@ -41,15 +41,22 @@ class HeatingCoolingPage extends React.Component {
 		super(props);
 		this.state = {
 			heating_status: null,
+			temperatures: null,
 			schedules_opened: false,
 			schedules: null,
 		};
 	}
 
 	load_status = () => {
-		apiCall(this.props.heating ? "/heatingStatus" : "/coolingStatus")
+		apiCall("/heatingStatus")
 			.then((data) => this.setState({ heating_status: data }))
 			.catch((err) => this.setState({ heating_status: "Error" }));
+	};
+
+	load_temperatures = () => {
+		apiCall(this.props.heating ? "/heatingTemperatures" : "/coolingTemperatures")
+			.then((data) => this.setState({ temperatures: data }))
+			.catch((err) => this.setState({ temperatures: "Error" }));
 	};
 
 	load_schedules = () => {
@@ -67,6 +74,7 @@ class HeatingCoolingPage extends React.Component {
 		return (
 			<div className="container-fluid vh-100 py-2">
 				<CyclicAction action={this.load_status} firstWait={() => null} time={60 /* Every min */} />
+				<CyclicAction action={this.load_temperatures} firstWait={() => null} time={60 /* Every min */} />
 
 				<div className={`pb-1 h-${this.title_height}percent w-100percent mx-auto`}>
 					<div className="w-100percent h-100percent">
@@ -81,7 +89,10 @@ class HeatingCoolingPage extends React.Component {
 								orientation={this.props.orientation}
 								on={this.state.heating_status}
 								heating={this.props.heating}
-								repull_data={this.load_status}
+								repull_data={() => {
+									this.load_status();
+									this.load_temperatures();
+								}}
 							/>
 						</div>
 						<div className="col-6 pl-1 pr-0 h-100percent">
@@ -101,7 +112,10 @@ class HeatingCoolingPage extends React.Component {
 								orientation={this.props.orientation}
 								on={this.state.heating_status}
 								heating={this.props.heating}
-								repull_data={this.load_status}
+								repull_data={() => {
+									this.load_status();
+									this.load_temperatures();
+								}}
 							/>
 						</div>
 					</div>
@@ -110,18 +124,17 @@ class HeatingCoolingPage extends React.Component {
 				<div className={`h-${this.rooms_height}percent m-0 pt-2`}>
 					<div className={`${this.horiz ? "row" : ""} h-100percent w-100percent m-0`}>
 						<ErrNullVal
-							val={this.state.heating_status}
+							val={this.state.temperatures}
 							display={
-								this.state.heating_status &&
-								this.state.heating_status.rooms_status &&
-								this.state.heating_status?.rooms_status.map((room_details, index) => (
+								this.state.temperatures &&
+								this.state.temperatures.map((room_details, index) => (
 									<RoomDisplay
 										key={index}
 										first={index === 0}
-										last={index === this.state.heating_status.rooms_status.length - 1}
+										last={index === this.state.temperatures.length - 1}
 										data={room_details}
 										heating={this.props.heating}
-										width={100 / this.state.heating_status.rooms_status.length}
+										width={100 / this.state.temperatures.length}
 										reloadData={this.load_status}
 										index={index}
 										orientation={this.props.orientation}

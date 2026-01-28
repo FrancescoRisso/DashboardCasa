@@ -51,14 +51,12 @@ class HeatingStatus extends React.Component {
 						<ErrNullVal
 							val={this.props.on}
 							display={
-								this.props.on && (
-									<CenteredTextWithIcon
-										text={this.props.on.activated ? "ON (spegni)" : "OFF (accendi)"}
-										icon={get_icon(this.props.heating, this.props.on?.activated)}
-										textScale={this.horiz ? 7 : 3.5}
-										imgScale={this.horiz ? 9 : 6}
-									/>
-								)
+								<CenteredTextWithIcon
+									text={this.props.on ? "ON (spegni)" : "OFF (accendi)"}
+									icon={get_icon(this.props.heating, this.props.on)}
+									textScale={this.horiz ? 7 : 3.5}
+									imgScale={this.horiz ? 9 : 6}
+								/>
 							}
 						/>
 					</button>

@@ -31,7 +31,10 @@ def describe_room(
     }
 
 
-def get_heating_on_off(settings: dict[str, str]) -> bool:
+def get_heating_on_off(app: Flask|None, settings: dict[str, str]) -> bool:
+    if app is not None:
+        printLog(app, "Info", f"Serving heating ON/OFF status")
+
     cmi_reader = requests.get(
         f"http://192.168.0.195/schematic_files/1.cgi",
         auth=HTTPBasicAuth(settings["CMI_username"], settings["CMI_password"]),
@@ -43,13 +46,10 @@ def get_heating_on_off(settings: dict[str, str]) -> bool:
 
 
 def heating_status_def(app: Flask, heating: bool, settings: dict[str, str]) -> str:
-    printLog(app, "Info", f"Serving heating ON/OFF status")
+    printLog(
+        app, "Info", f"Serving {'heating' if heating else 'cooling' } temperatures"
+    )
 
     return json.dumps(
-        {
-            "activated": get_heating_on_off(settings),
-            "rooms_status": [
-                describe_room(room, heating, settings) for room in main_rooms
-            ],
-        }
+        [describe_room(room, heating, settings) for room in main_rooms],
     )
