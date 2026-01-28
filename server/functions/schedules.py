@@ -143,8 +143,6 @@ def cron_action_def(app: Flask, settings: dict[str, str]) -> str:
     now = datetime.now()
     day_cron_format = (now.weekday() + 1) % 7
 
-    printLog(app, "info", "Cron requested a rule evaluation")
-
     schedules_modified = False
     schedules = parse_schedules()
 
