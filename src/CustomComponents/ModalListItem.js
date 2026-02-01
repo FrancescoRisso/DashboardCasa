@@ -6,8 +6,7 @@ description:
 props:
 	- name: the title to be displayed
 	- value: the value for the name
-	- recalc: whether the AdaptiveFontSize-s should recalculate
-	- fontSizeGroup: the name of the font size group
+	- larger
 	
 imported into:
 	- ModalList
@@ -18,34 +17,44 @@ dependences:
 */
 
 import React from "react";
-import AdaptiveFontSize from "./AdaptiveFontSize";
+
+const formatVal = (val, unit) => {
+	if (typeof val === "boolean") return val ? "ON" : "OFF";
+
+	switch (unit) {
+		case " kW":
+			return val.toFixed(3).replace(".", ",");
+		case "%":
+			return val.toFixed(0).replace(".", ",");
+		case "°C":
+			return val.toFixed(1).replace(".", ",");
+		default:
+			break;
+	}
+
+	return val;
+};
 
 class ModalListItem extends React.Component {
 	render() {
 		return (
 			<div className="row m-0 fill-primary-light w-100 h-100percent rounded-lg">
 				<div className="col-7 h-100percent p-0">
-					<AdaptiveFontSize
-						text={this.props.name}
-						recalc={this.props.recalc}
-						className="text-center"
-						group={this.props.fontSizeGroup}
-					/>
+					<p
+						className="text-center center-vertically mb-0"
+						style={{ fontSize: this.props.larger ? "3.4vh" : "2vh" }}
+					>
+						{this.props.name}
+					</p>
 				</div>
 				<div className="col-5 h-100percent p-0">
-					<AdaptiveFontSize
-						text={`${(typeof this.props.value === "boolean"
-							? this.props.value
-								? "ON"
-								: "OFF"
-							: this.props.unit === " kW"
-							? this.props.value.toFixed(4)
-							: this.props.value.toFixed(1)
-						).replace(".", ",")}${this.props.unit}`}
-						recalc={this.props.recalc}
-						className="text-center"
-						group={this.props.fontSizeGroup}
-					/>
+					<p
+						className="text-center center-vertically mb-0"
+						style={{ fontSize: this.props.larger ? "4vh" : "2.3vh" }}
+					>
+						{formatVal(this.props.value, this.props.unit)}
+						{this.props.unit}
+					</p>
 				</div>
 			</div>
 		);

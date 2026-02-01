@@ -81,6 +81,7 @@ class Temperature extends React.Component {
 					values={this.state.values}
 					unit="°C"
 					recalc={this.state.modalOpen}
+					larger
 				/>
 
 				<button

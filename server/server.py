@@ -2,7 +2,7 @@ import json
 import logging
 
 from flask import Flask, request
-from functions.consumptions import consumptions_def
+from functions.consumptions import bticino_consumptions_def, fronius_consumptions_def
 from functions.current_temperatures import current_temperatures
 from functions.current_weather import weatherNow_def
 from functions.exec_on_cmi import change_temperature, set_on_off
@@ -73,9 +73,14 @@ def cooling_temps():
     return heating_status_def(app, False, settings)
 
 
-@app.route("/api/consumptions")
-def consumptions():
-    return consumptions_def(app)
+@app.route("/api/consumptions/bticino")
+def consumptions_bticino():
+    return bticino_consumptions_def(app)
+
+
+@app.route("/api/consumptions/fronius")
+def consumptions_fronius():
+    return fronius_consumptions_def(app)
 
 
 @app.route("/api/schedules", methods=["GET", "POST"])

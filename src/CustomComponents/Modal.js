@@ -11,6 +11,7 @@ props:
 	- recalc: briefly set to true when modal is opened, in order to refresh the
 		AdaptiveFontSize-s
 	- unit: the unit of the data in display
+	- larger
 
 functions:
 	- componentDidMount: registers the AdaptiveFontSize group
@@ -35,10 +36,6 @@ import Context from "./Context";
 
 class Modal extends React.Component {
 	static contextType = Context;
-
-	componentDidMount = () => {
-		this.context.AdaptiveFontSize.registerGroup(`modal-${this.props.id}`);
-	};
 
 	computeColData = () => {
 		if ([null, "Error"].includes(this.props.values))
@@ -107,27 +104,20 @@ class Modal extends React.Component {
 							<div className="h-70percent">
 								{this.props.values && this.props.values !== "Error" ? (
 									fields.length < 6 || this.props.alwaysVertical ? (
-										<ModalList
-											values={allData}
-											recalc={this.props.recalc}
-											fontSizeGroup={`modal-${this.props.id}`}
-											unit={this.props.unit}
-										/>
+										<ModalList larger={this.props.larger} values={allData} unit={this.props.unit} />
 									) : fields.length % 2 === 0 ? (
 										<div className="row h-100percent m-0">
 											<div className="col-6 pl-0 pr-1">
 												<ModalList
+													larger={this.props.larger}
 													values={leftColData}
-													recalc={this.props.recalc}
-													fontSizeGroup={`modal-${this.props.id}`}
 													unit={this.props.unit}
 												/>
 											</div>
 											<div className="col-6 pr-0 pl-1 h-100percent">
 												<ModalList
+													larger={this.props.larger}
 													values={rightColData}
-													recalc={this.props.recalc}
-													fontSizeGroup={`modal-${this.props.id}`}
 													unit={this.props.unit}
 												/>
 											</div>
@@ -145,17 +135,15 @@ class Modal extends React.Component {
 											>
 												<div className="col-6 pl-0 pr-1">
 													<ModalList
+														larger={this.props.larger}
 														values={leftColData}
-														recalc={this.props.recalc}
-														fontSizeGroup={`modal-${this.props.id}`}
 														unit={this.props.unit}
 													/>
 												</div>
 												<div className="col-6 pr-0 pl-1">
 													<ModalList
+														larger={this.props.larger}
 														values={rightColData}
-														recalc={this.props.recalc}
-														fontSizeGroup={`modal-${this.props.id}`}
 														unit={this.props.unit}
 													/>
 												</div>
@@ -166,9 +154,8 @@ class Modal extends React.Component {
 												}}
 											>
 												<ModalList
+													larger={this.props.larger}
 													values={extraColData}
-													recalc={this.props.recalc}
-													fontSizeGroup={`modal-${this.props.id}`}
 													centerSmaller={true}
 													unit={this.props.unit}
 												/>

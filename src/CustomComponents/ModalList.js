@@ -4,10 +4,9 @@ description:
 	Displays a list of key-values inside the modal
 	
 props:
-	- recalc: whether the AdaptiveFontSize-s should recalculate
 	- values[]: the array of objects {label, value (,link)} to be displayed
-	- fontSizeGroup: the name of the font size group
 	- unit: the unit of the data in display
+	- larger
 	
 imported into:
 	- Modal
@@ -40,9 +39,8 @@ class ModalList extends React.Component {
 						<ModalListItem
 							name={val.label}
 							value={val.value}
-							recalc={this.props.recalc}
-							fontSizeGroup={this.props.fontSizeGroup}
 							unit={val.unit || this.props.unit}
+							larger={this.props.larger}
 						/>
 					</a>
 				);
@@ -60,9 +58,8 @@ class ModalList extends React.Component {
 						<ModalListItem
 							name={val.label}
 							value={val.value}
-							recalc={this.props.recalc}
-							fontSizeGroup={this.props.fontSizeGroup}
 							unit={val.unit || this.props.unit}
+							larger={this.props.larger}
 						/>
 					</div>
 				);

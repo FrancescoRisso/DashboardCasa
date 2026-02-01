@@ -44,27 +44,45 @@ class Electricity extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			bticinoValues: null,
+			froniusValues: null,
 			values: null,
 			modalOpen: false,
 			updateFontSize: false,
 		};
 	}
 
-	updateData = () => {
-		apiCall("/consumptions")
-			.then((data) => {
-				if (this.state.values !== "Error") this.setState({ values: data });
-				else
-					this.setState({ values: data, updateFontSize: true }, () => {
-						this.setState({ updateFontSize: false });
-					});
-			})
-			.catch((err) => {
-				if (this.state.values !== "Error")
-					this.setState({ values: "Error", updateFontSize: true }, () => {
-						this.setState({ updateFontSize: false });
-					});
+	componentDidUpdate = (_, prevState) => {
+		if (
+			prevState.bticinoValues !== this.state.bticinoValues ||
+			prevState.froniusValues !== this.state.froniusValues
+		) {
+			const getNewVal = () => {
+				if (this.state.bticinoValues === "Error" || this.state.froniusValues === "Error") return "Error";
+				if (this.state.bticinoValues === null && this.state.froniusValues === null) return null;
+				if (this.state.bticinoValues === null) return this.state.froniusValues;
+				if (this.state.froniusValues === null) return this.state.bticinoValues;
+				return { ...this.state.bticinoValues, ...this.state.froniusValues };
+			};
+
+			const newVal = getNewVal();
+
+			this.setState({ values: newVal, updateFontSize: true }, () => {
+				this.setState({ updateFontSize: false });
 			});
+		}
+	};
+
+	updateFroniusData = () => {
+		apiCall("/consumptions/fronius")
+			.then((data) => this.setState({ froniusValues: data }))
+			.catch((err) => this.setState({ froniusValues: "Error" }));
+	};
+
+	updateBticinoData = () => {
+		apiCall("/consumptions/bticino")
+			.then((data) => this.setState({ bticinoValues: data }))
+			.catch((err) => this.setState({ bticinoValues: "Error" }));
 	};
 
 	doModalOpen = () => {
@@ -80,7 +98,8 @@ class Electricity extends React.Component {
 	render() {
 		return (
 			<>
-				<CyclicAction action={this.updateData} time={60 /* Every min */} firstWait={() => null} />
+				<CyclicAction action={this.updateBticinoData} time={60 /* Every min */} firstWait={() => null} />
+				<CyclicAction action={this.updateFroniusData} time={1 /* Every sec */} firstWait={() => null} />
 				<Modal
 					id="consumptions"
 					title="Consumi elettrici"

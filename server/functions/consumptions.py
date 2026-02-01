@@ -15,26 +15,8 @@ def get_from_btcino(index: int) -> str | float:
     return int(page[1].text) / 1000  # type: ignore
 
 
-def get_fronius_data():
-    INVERTER = "192.168.0.241"
-    URL = f"http://{INVERTER}/solar_api/v1/GetPowerFlowRealtimeData.fcgi"
-
-    response = requests.get(URL, timeout=2)
-    response.raise_for_status()
-    return response.json()["Body"]["Data"]
-
-
-def insert_based_on_sign(
-    values: dict[str, float | str], val: int, name_pos: str, name_neg: str
-):
-    if val > 0:
-        values[name_pos] = val
-    else:
-        values[name_neg] = -val
-
-
-def consumptions_def(app: Flask) -> str:
-    printLog(app, "Info", "Serving consumptions data")
+def bticino_consumptions_def(app: Flask) -> str:
+    printLog(app, "Info", "Serving Bticino consumptions data")
 
     values: dict[str, float | str] = {}
 
@@ -52,7 +34,34 @@ def consumptions_def(app: Flask) -> str:
         # values["Consumo totale"] = values["Abitazione"] + values["Seminterrato"] + values["Wallbox"]
         # values["Immessa in rete"] = values["Produzione fotovoltaico"] - values["Consumo totale"]
 
-        fronius_data = get_fronius_data()
+        return json.dumps(values)
+
+    except Exception as e:
+        printLog(app, "Err", f"Error in serving Bticino consumptions data: {e}")
+        return "Error"
+
+
+def insert_based_on_sign(
+    values: dict[str, float | str], val: int, name_pos: str, name_neg: str
+):
+    if val > 0:
+        values[name_pos] = val
+    else:
+        values[name_neg] = -val
+
+
+def fronius_consumptions_def(app: Flask) -> str:
+    printLog(app, "Info", "Serving Fronius consumptions data")
+
+    values: dict[str, float | str] = {}
+
+    try:
+        INVERTER = "192.168.0.241"
+        URL = f"http://{INVERTER}/solar_api/v1/GetPowerFlowRealtimeData.fcgi"
+
+        response = requests.get(URL, timeout=2)
+        response.raise_for_status()
+        fronius_data = response.json()["Body"]["Data"]
 
         values["Prodotta fotovoltaico"] = fronius_data["Site"]["P_PV"] / 1000
         values["Consumo totale"] = -fronius_data["Site"]["P_Load"] / 1000
@@ -67,5 +76,5 @@ def consumptions_def(app: Flask) -> str:
         return json.dumps(values)
 
     except Exception as e:
-        printLog(app, "Err", f"Error in serving consumptions data: {e}")
+        printLog(app, "Err", f"Error in serving Fronius consumptions data: {e}")
         return "Error"

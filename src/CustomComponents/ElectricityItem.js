@@ -64,8 +64,9 @@ class ElectricityItem extends React.Component {
 						<AdaptiveFontSize
 							className="h-70percent w-90percent-left text-right"
 							text={
-								this.props.values !== "Error" &&
-								`${this.props.values[title].toFixed(3).replace(".", ",")} kW`
+								this.props.values === "Error"
+									? "Si è verificato un errore"
+									: `${this.props.values[title].toFixed(3).replace(".", ",")} kW`
 							}
 							recalc={this.props.updateFontSize}
 						/>
