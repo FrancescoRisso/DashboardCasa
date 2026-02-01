@@ -14,6 +14,7 @@ props:
 	- updateFontSize: set it to true, then false to force a recalculation of the font sizes
 		(to be done when the values change between values and errors)
 	- arrange (col|row): whether the items should be arranged in a row or in a column
+	- altTitle
 	
 imported into:
 	- Electricity
@@ -26,11 +27,21 @@ dependences:
 import React from "react";
 import AdaptiveFontSize from "./AdaptiveFontSize";
 
+const choose_name = (vals, title, altTitle) => {
+	if (vals === null) return title;
+	if (vals === "Error") return title;
+	if (Object.keys(vals).includes(title)) return title;
+
+	return altTitle;
+};
+
 class ElectricityItem extends React.Component {
 	render() {
+		const title = choose_name(this.props.values, this.props.title, this.props.altTitle);
+
 		return (
 			<div
-				className={`${this.props.arrange === "col" ? `h-33percent` : `h-100percent col-4 p-0`} ${
+				className={`${this.props.arrange === "col" ? `h-33percent` : `h-100percent col-6 p-0`} ${
 					this.props.padding
 				}-1`}
 			>
@@ -46,7 +57,7 @@ class ElectricityItem extends React.Component {
 						className={`h-30percent ${
 							this.props.arrange === "col" ? "w-90percent-right" : "w-100percent"
 						} text-left`}
-						text={`${this.props.title}:`}
+						text={`${title}:`}
 						group={this.props.fontSizeGroup}
 					/>
 					{this.props.values ? (
@@ -54,12 +65,7 @@ class ElectricityItem extends React.Component {
 							className="h-70percent w-90percent-left text-right"
 							text={
 								this.props.values !== "Error" &&
-								this.props.values.filter((x) => x.label === this.props.title).length !== 0
-									? `${this.props.values
-											.filter((x) => x.label === this.props.title)[0]
-											.value.toFixed(3)
-											.replace(".", ",")} kW`
-									: "Si è verificato un errore"
+								`${this.props.values[title].toFixed(3).replace(".", ",")} kW`
 							}
 							recalc={this.props.updateFontSize}
 						/>

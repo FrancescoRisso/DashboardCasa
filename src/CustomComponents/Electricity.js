@@ -46,7 +46,7 @@ class Electricity extends React.Component {
 		this.state = {
 			values: null,
 			modalOpen: false,
-			updateFontSize: false
+			updateFontSize: false,
 		};
 	}
 
@@ -86,44 +86,49 @@ class Electricity extends React.Component {
 					title="Consumi elettrici"
 					recalc={this.state.modalOpen}
 					values={this.state.values}
-					unit=" kW"
 					alwaysVertical={this.props.arrange === "row"}
+					energyModal={true}
 				/>
-				<div className={`h-100percent ${this.props.arrange === "row" ? "row w-100percent m-0" : ""}`}>
+				<div className={`h-50percent row m-0 pb-1`}>
 					<ElectricityItem
-						padding={this.props.arrange === "col" ? "pb" : "pr"}
-						title="Produzione fotovoltaico"
+						padding={"pr"}
+						title="Prodotta fotovoltaico"
 						values={this.state.values}
 						doModalOpen={this.doModalOpen}
 						fontSizeGroup="titles-consumptions"
 						updateFontSize={this.state.updateFontSize}
-						arrange={this.props.arrange}
+						arrange={"row"}
 					/>
 					<ElectricityItem
-						padding={this.props.arrange === "col" ? "py" : "px"}
+						padding={"pl"}
 						title="Consumo totale"
 						values={this.state.values}
 						doModalOpen={this.doModalOpen}
 						fontSizeGroup="titles-consumptions"
 						updateFontSize={this.state.updateFontSize}
-						arrange={this.props.arrange}
+						arrange={"row"}
 					/>
+				</div>
+				<div className={`h-50percent row m-0 pt-1`}>
 					<ElectricityItem
-						padding={this.props.arrange === "col" ? "pt" : "pl"}
-						title={
-							this.state.values &&
-							this.state.values !== "Error" &&
-							this.state.values.filter((x) => x.label === "Immessa in rete") &&
-							this.state.values.filter((x) => x.label === "Immessa in rete").length > 0 &&
-							this.state.values.filter((x) => x.label === "Immessa in rete")[0].value > 0
-								? "Immessa in rete"
-								: "Comprata dall'ENEL"
-						}
+						padding={"pr"}
+						title="Comprata da rete"
+						altTitle="Venduta in rete"
 						values={this.state.values}
 						doModalOpen={this.doModalOpen}
 						fontSizeGroup="titles-consumptions"
 						updateFontSize={this.state.updateFontSize}
-						arrange={this.props.arrange}
+						arrange={"row"}
+					/>
+					<ElectricityItem
+						padding={"pl"}
+						title="Consumo da batteria"
+						altTitle="Immessa in batteria"
+						values={this.state.values}
+						doModalOpen={this.doModalOpen}
+						fontSizeGroup="titles-consumptions"
+						updateFontSize={this.state.updateFontSize}
+						arrange={"row"}
 					/>
 				</div>
 			</>

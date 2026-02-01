@@ -1,58 +1,70 @@
 import json
-from operator import itemgetter
 from urllib.request import Request, urlopen
 
+import requests
 from flask import Flask
 from functions.log import printLog  # type: ignore
 from lxml import etree
 
 
+def get_from_btcino(index: int) -> str | float:
+    page = urlopen(Request(f"http://192.168.0.6/istval_0{index}00.xml", headers={}))
+    page = page.read().decode("utf-8")
+    page = etree.XML(page)
+
+    return int(page[1].text) / 1000  # type: ignore
+
+
+def get_fronius_data():
+    INVERTER = "192.168.0.241"
+    URL = f"http://{INVERTER}/solar_api/v1/GetPowerFlowRealtimeData.fcgi"
+
+    response = requests.get(URL, timeout=2)
+    response.raise_for_status()
+    return response.json()["Body"]["Data"]
+
+
+def insert_based_on_sign(
+    values: dict[str, float | str], val: int, name_pos: str, name_neg: str
+):
+    if val > 0:
+        values[name_pos] = val
+    else:
+        values[name_neg] = -val
+
+
 def consumptions_def(app: Flask) -> str:
     printLog(app, "Info", "Serving consumptions data")
 
-    downstairsName = "Seminterrato"
-    wallBoxName = "Wallbox"
-    upstairsName = "Abitazione"
-    solarPanelName = "Produzione fotovoltaico"
-    totalConsumptionName = "Consumo totale"
-
-    sources = {
-        "Comprata dall'ENEL": 0,
-        upstairsName: 1,
-        downstairsName: 2,
-        "PdC riscaldamento": 3,
-        "PdC sanitaria": 4,
-        solarPanelName: 5,
-        wallBoxName: 6,
-        "Fornelli": 7,
-        "Forno": 8,
-    }
+    values: dict[str, float | str] = {}
 
     try:
-        values: dict[str, float] = {}
+        # values["Comprata dall'ENEL"] = get_from_btcino(0)
+        values["Abitazione"] = get_from_btcino(1)
+        values["Seminterrato"] = get_from_btcino(2)
+        values["PdC riscaldamento"] = get_from_btcino(3)
+        values["PdC sanitaria"] = get_from_btcino(4)
+        # values["Produzione fotovoltaico"] = get_from_btcino(5)
+        values["Wallbox"] = get_from_btcino(6)
+        values["Fornelli"] = get_from_btcino(7)
+        values["Forno"] = get_from_btcino(8)
 
-        for name, index in sources.items():
+        # values["Consumo totale"] = values["Abitazione"] + values["Seminterrato"] + values["Wallbox"]
+        # values["Immessa in rete"] = values["Produzione fotovoltaico"] - values["Consumo totale"]
 
-            page = urlopen(
-                Request(f"http://192.168.0.6/istval_0{index}00.xml", headers={})
-            )
-            page = page.read().decode("utf-8")
-            page = etree.XML(page)
-            values[name] = int(page[1].text) / 1000  # type: ignore
+        fronius_data = get_fronius_data()
 
-        values[totalConsumptionName] = (
-            values[downstairsName] + values[wallBoxName] + values[upstairsName]
-        )
-        values["Immessa in rete"] = (
-            values[solarPanelName] - values[totalConsumptionName]
-        )
+        values["Prodotta fotovoltaico"] = fronius_data["Site"]["P_PV"] / 1000
+        values["Consumo totale"] = -fronius_data["Site"]["P_Load"] / 1000
+        values["Stato di carica della batteria"] = fronius_data["Inverters"]["1"]["SOC"]
 
-        res: list[dict[str, str | float]] = [
-            {"label": key, "value": val} for (key, val) in values.items()
-        ]
-        res.sort(key=itemgetter("label"))
+        enel = fronius_data["Site"]["P_Grid"] / 1000
+        insert_based_on_sign(values, enel, "Comprata da rete", "Venduta in rete")
 
-        return json.dumps(res)
+        batt = fronius_data["Site"]["P_Akku"] / 1000
+        insert_based_on_sign(values, batt, "Immessa in batteria", "Consumo da batteria")
+
+        return json.dumps(values)
 
     except Exception as e:
         printLog(app, "Err", f"Error in serving consumptions data: {e}")

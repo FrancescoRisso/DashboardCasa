@@ -27,7 +27,7 @@ class ModalList extends React.Component {
 				return (
 					<a
 						style={{
-							height: `${100 / this.props.values.length}%`
+							height: `${100 / this.props.values.length}%`,
 						}}
 						className={`row m-0 w-${
 							this.props.centerSmaller ? "50" : "100"
@@ -42,7 +42,7 @@ class ModalList extends React.Component {
 							value={val.value}
 							recalc={this.props.recalc}
 							fontSizeGroup={this.props.fontSizeGroup}
-							unit={this.props.unit}
+							unit={val.unit || this.props.unit}
 						/>
 					</a>
 				);
@@ -50,7 +50,7 @@ class ModalList extends React.Component {
 				return (
 					<div
 						style={{
-							height: `${100 / this.props.values.length}%`
+							height: `${100 / this.props.values.length}%`,
 						}}
 						className={`row m-0 w-${
 							this.props.centerSmaller ? "50" : "100"
@@ -62,7 +62,7 @@ class ModalList extends React.Component {
 							value={val.value}
 							recalc={this.props.recalc}
 							fontSizeGroup={this.props.fontSizeGroup}
-							unit={this.props.unit}
+							unit={val.unit || this.props.unit}
 						/>
 					</div>
 				);

@@ -40,7 +40,49 @@ class Modal extends React.Component {
 		this.context.AdaptiveFontSize.registerGroup(`modal-${this.props.id}`);
 	};
 
+	computeColData = () => {
+		if ([null, "Error"].includes(this.props.values))
+			return { fields: [], leftColData: [], rightColData: [], extraColData: [] };
+
+		if (this.props.energyModal) {
+			const fields = Object.keys(this.props.values).sort();
+
+			const allEvenFields = fields.filter((_, index) => index % 2 === 0);
+			const oddFields = fields.filter((_, index) => index % 2 === 1);
+
+			const extraField =
+				allEvenFields.length === oddFields.length ? null : allEvenFields[allEvenFields.length - 1];
+			const evenFields = allEvenFields.filter((field) => field !== extraField);
+
+			const formatDataRecord = (field) => {
+				return {
+					label: field,
+					value: this.props.values[field],
+					unit: field === "Stato di carica della batteria" ? " %" : " kW",
+				};
+			};
+
+			const leftColData = evenFields.map(formatDataRecord);
+			const rightColData = oddFields.map(formatDataRecord);
+			const allData = fields.map(formatDataRecord);
+
+			const extraColData = (extraField && [formatDataRecord(extraField)]) || [];
+
+			return { fields, allData, leftColData, rightColData, extraColData };
+		} else {
+			const rightColData = [];
+			const extraColData = [];
+			const leftColData = [];
+			const allData = this.props.values;
+			const fields = Object.keys(this.props.values);
+
+			return { fields, allData, leftColData, rightColData, extraColData };
+		}
+	};
+
 	render() {
+		const { fields, allData, leftColData, rightColData, extraColData } = this.computeColData();
+
 		return (
 			<div
 				className="modal fade"
@@ -58,34 +100,35 @@ class Modal extends React.Component {
 									className="text-center"
 									text={this.props.title}
 									recalc={this.props.recalc}
+									unit={this.props.unit}
 								/>
 							</div>
 							<div className="spacer h-3percent"></div>
 							<div className="h-70percent">
 								{this.props.values && this.props.values !== "Error" ? (
-									this.props.values.length < 6 || this.props.alwaysVertical ? (
+									fields.length < 6 || this.props.alwaysVertical ? (
 										<ModalList
-											values={this.props.values}
+											values={allData}
 											recalc={this.props.recalc}
-											unit={this.props.unit}
 											fontSizeGroup={`modal-${this.props.id}`}
+											unit={this.props.unit}
 										/>
-									) : this.props.values.length % 2 === 0 ? (
+									) : fields.length % 2 === 0 ? (
 										<div className="row h-100percent m-0">
 											<div className="col-6 pl-0 pr-1">
 												<ModalList
-													values={this.props.values.filter((el, index) => index % 2 === 0)}
+													values={leftColData}
 													recalc={this.props.recalc}
-													unit={this.props.unit}
 													fontSizeGroup={`modal-${this.props.id}`}
+													unit={this.props.unit}
 												/>
 											</div>
 											<div className="col-6 pr-0 pl-1 h-100percent">
 												<ModalList
-													values={this.props.values.filter((el, index) => index % 2 !== 0)}
+													values={rightColData}
 													recalc={this.props.recalc}
-													unit={this.props.unit}
 													fontSizeGroup={`modal-${this.props.id}`}
+													unit={this.props.unit}
 												/>
 											</div>
 										</div>
@@ -95,45 +138,39 @@ class Modal extends React.Component {
 												className="row m-0"
 												style={{
 													height: `${Math.floor(
-														(Math.floor(this.props.values.length / 2) * 100) /
-															Math.ceil(this.props.values.length / 2)
-													)}%`
+														(Math.floor(Object.keys(this.props.values).length / 2) * 100) /
+															Math.ceil(Object.keys(this.props.values).length / 2),
+													)}%`,
 												}}
 											>
 												<div className="col-6 pl-0 pr-1">
 													<ModalList
-														values={this.props.values.filter(
-															(el, index) =>
-																index % 2 === 0 &&
-																index + 1 !== this.props.values.length
-														)}
+														values={leftColData}
 														recalc={this.props.recalc}
-														unit={this.props.unit}
 														fontSizeGroup={`modal-${this.props.id}`}
+														unit={this.props.unit}
 													/>
 												</div>
 												<div className="col-6 pr-0 pl-1">
 													<ModalList
-														values={this.props.values.filter(
-															(el, index, array) => index % 2 !== 0
-														)}
+														values={rightColData}
 														recalc={this.props.recalc}
-														unit={this.props.unit}
 														fontSizeGroup={`modal-${this.props.id}`}
+														unit={this.props.unit}
 													/>
 												</div>
 											</div>
 											<div
 												style={{
-													height: `${100 / Math.ceil(this.props.values.length / 2)}%`
+													height: `${100 / Math.ceil(Object.keys(this.props.values).length / 2)}%`,
 												}}
 											>
 												<ModalList
-													values={[this.props.values.at(-1)]}
+													values={extraColData}
 													recalc={this.props.recalc}
-													unit={this.props.unit}
 													fontSizeGroup={`modal-${this.props.id}`}
 													centerSmaller={true}
+													unit={this.props.unit}
 												/>
 											</div>
 										</>
@@ -149,11 +186,7 @@ class Modal extends React.Component {
 								className="btn btn-primary text-center w-100 py-0 h-12percent"
 								data-dismiss="modal"
 							>
-								<AdaptiveFontSize
-									className="text-center"
-									text="Chiudi"
-									recalc={this.props.recalc}
-								/>
+								<AdaptiveFontSize className="text-center" text="Chiudi" recalc={this.props.recalc} />
 							</button>
 						</div>
 					</div>
