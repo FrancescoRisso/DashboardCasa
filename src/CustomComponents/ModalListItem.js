@@ -21,6 +21,8 @@ import React from "react";
 const formatVal = (val, unit) => {
 	if (typeof val === "boolean") return val ? "ON" : "OFF";
 
+	if (val === "Error" || !val) return "";
+
 	switch (unit) {
 		case " kW":
 			return val.toFixed(3).replace(".", ",");
