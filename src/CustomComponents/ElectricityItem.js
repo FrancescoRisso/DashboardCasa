@@ -39,6 +39,10 @@ class ElectricityItem extends React.Component {
 	render() {
 		const title = choose_name(this.props.values, this.props.title, this.props.altTitle);
 
+		const spinner =
+			this.props.values === null ||
+			(this.props.values !== "Error" && !Object.keys(this.props.values).includes(title));
+
 		return (
 			<div
 				className={`${this.props.arrange === "col" ? `h-33percent` : `h-100percent col-6 p-0`} ${
@@ -60,7 +64,13 @@ class ElectricityItem extends React.Component {
 						text={`${title}:`}
 						group={this.props.fontSizeGroup}
 					/>
-					{this.props.values ? (
+					{spinner ? (
+						<div className="h-70percent w-100">
+							<span className="center">
+								<span className="spinner-border"></span>
+							</span>
+						</div>
+					) : (
 						<AdaptiveFontSize
 							className="h-70percent w-90percent-left text-right"
 							text={
@@ -70,12 +80,6 @@ class ElectricityItem extends React.Component {
 							}
 							recalc={this.props.updateFontSize}
 						/>
-					) : (
-						<div className="h-70percent w-100">
-							<span className="center">
-								<span className="spinner-border"></span>
-							</span>
-						</div>
 					)}
 				</button>
 			</div>
