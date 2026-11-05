@@ -22,8 +22,8 @@ jobs:
 
             - name: Clone repository
               uses: actions/checkout@v2
-              with:
-                  ref: build
+              # with:
+              #     ref: build
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v2
@@ -58,8 +58,8 @@ jobs:
 
             - name: Clone repository
               uses: actions/checkout@v2
-              with:
-                  ref: build
+              # with:
+              #     ref: build
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v2
