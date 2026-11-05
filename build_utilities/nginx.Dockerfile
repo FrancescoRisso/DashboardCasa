@@ -8,6 +8,9 @@ ENV SSL_key=$SSL_key
 ARG SSL_pem=" "
 ENV SSL_pem=$SSL_pem
 
+ARG GUNICORN_ADDR="gunicorn"
+ENV GUNICORN_ADDR=$GUNICORN_ADDR
+
 COPY ./images /app/images
 COPY ./static /app/static
 COPY ./asset-manifest.json /app/asset-manifest.json
@@ -16,7 +19,8 @@ COPY ./index.html /app/index.html
 COPY ./manifest.json /app/manifest.json
 COPY ./offline.html /app/offline.html
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf.template /etc/nginx/templates/nginx.conf.template
 
 EXPOSE 443
 
