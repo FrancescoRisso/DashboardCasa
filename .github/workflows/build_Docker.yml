@@ -18,7 +18,7 @@ jobs:
                   ref: build
 
             - name: DEBUG
-              run: echo ${{ github.event.ref }}
+              run: echo "${{ github.event.ref }}"
 
             # - name: Set up QEMU
             #   uses: docker/setup-qemu-action@v2
