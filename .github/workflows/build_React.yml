@@ -34,6 +34,9 @@ jobs:
             #       CI: false
 
             - name: DEBUG
+              run: echo "${{ github }}"
+
+            - name: DEBUG
               run: mkdir build
 
             - name: Create .github folder inside the build folder
