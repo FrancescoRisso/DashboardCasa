@@ -20,21 +20,18 @@ jobs:
             - name: Clone repository
               uses: actions/checkout@v2
 
-            # - name: Use Node.js 24.x
-            #   uses: actions/setup-node@v1
-            #   with:
-            #       node-version: 24.x
+            - name: Use Node.js 24.x
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 24.x
 
-            # - name: Install dependencies
-            #   run: npm install -f
+            - name: Install dependencies
+              run: npm install -f
 
-            # - name: Generate react build
-            #   run: npm run build
-            #   env:
-            #       CI: false
-
-            - name: DEBUG
-              run: mkdir build
+            - name: Generate react build
+              run: npm run build
+              env:
+                  CI: false
 
             - name: Create .github folder inside the build folder
               run: mkdir build/.github/
@@ -48,29 +45,29 @@ jobs:
             - name: Copy server to the build folder
               run: mv server build/server/
 
-            # - name: Update error logging in the build server
-            #   uses: jacobtomlinson/gha-find-replace@v2
-            #   with:
-            #       find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [ERR ] '
-            #       replace: 'app.logger.error(f"'
-            #       include: "build/server/functions/log.py"
-            #       "regex": false
+            - name: Update error logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [ERR ] '
+                  replace: 'app.logger.error(f"'
+                  include: "build/server/functions/log.py"
+                  "regex": false
 
-            # - name: Update info logging in the build server
-            #   uses: jacobtomlinson/gha-find-replace@v2
-            #   with:
-            #       find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [INFO] '
-            #       replace: 'app.logger.info(f"'
-            #       include: "build/server/functions/log.py"
-            #       "regex": false
+            - name: Update info logging in the build server
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: 'print(f"{datetime.now().strftime(''%d/%m/%Y %H:%M:%S'')} [INFO] '
+                  replace: 'app.logger.info(f"'
+                  include: "build/server/functions/log.py"
+                  "regex": false
 
-            # - name: Update port number in the cron generation
-            #   uses: jacobtomlinson/gha-find-replace@v2
-            #   with:
-            #       find: ":3001"
-            #       replace: ":8000"
-            #       include: "build/server/functions/schedules.py"
-            #       "regex": false
+            - name: Update port number in the cron generation
+              uses: jacobtomlinson/gha-find-replace@v2
+              with:
+                  find: ":3001"
+                  replace: ":8000"
+                  include: "build/server/functions/schedules.py"
+                  "regex": false
 
             - name: Push to the build branch
               uses: s0/git-publish-subdir-action@develop
@@ -133,9 +130,6 @@ jobs:
                       echo "DOCKER_HUB_TAG=test" >> "$GITHUB_ENV"
                       echo "BUILD_BRANCH=dev-build" >> "$GITHUB_ENV"
                   fi
-
-            - name: Debug
-              run: cat .github/workflows/build_Docker.yml
 
             - name: Clone repository
               uses: actions/checkout@v2
