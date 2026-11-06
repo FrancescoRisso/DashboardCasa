@@ -33,6 +33,9 @@ jobs:
             #   env:
             #       CI: false
 
+            - name: DEBUG
+              run: mkdir build
+
             - name: Create .github folder inside the build folder
               run: mkdir build/.github/
 
