@@ -8,6 +8,7 @@ on:
         types:
             - completed
 
+
 jobs:
     nginxDocker:
         runs-on: ubuntu-latest
