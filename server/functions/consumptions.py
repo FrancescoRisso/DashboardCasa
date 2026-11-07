@@ -70,7 +70,7 @@ def fronius_consumptions_def(app: Flask) -> str:
         enel = fronius_data["Site"]["P_Grid"] / 1000
         insert_based_on_sign(values, enel, "Comprata da rete", "Venduta in rete")
 
-        batt = fronius_data["Site"]["P_Akku"] / 1000
+        batt = -fronius_data["Site"]["P_Akku"] / 1000
         insert_based_on_sign(values, batt, "Immessa in batteria", "Consumo da batteria")
 
         return json.dumps(values)

@@ -5,7 +5,6 @@ WORKDIR /server
 ARG workers=2
 ENV workers=$workers
 
-COPY ./server/ .
 
 RUN apt-get update
 RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-dev
@@ -13,9 +12,13 @@ RUN apt-get -y install default-mysql-client python3-dev default-libmysqlclient-d
 RUN pip3 install --upgrade pip
 
 RUN pip3 install gunicorn
-RUN pip3 install -r requirements.txt
 RUN pip3 install mysql-connector-python
 RUN pip3 install mysqlclient
+
+COPY ./server/requirements.txt ./requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY ./server/ .
 
 RUN sed -i '1s@^@import os\n@' server.py
 RUN sed -ir 's@.*settings.*load(f)@@' server.py
