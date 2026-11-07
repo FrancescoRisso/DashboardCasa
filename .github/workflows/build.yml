@@ -104,7 +104,7 @@ jobs:
                   fi
 
             - name: DEBUG
-              run: echo $GITHUB_ENV
+              run: echo ${{ env }}
 
             - name: Clone repository
               uses: actions/checkout@v2
