@@ -173,7 +173,7 @@ jobs:
             - name: Delete branch if on dev
               run: |
                   if [[ $GITHUB_REF_NAME == 'dev' ]]; then
-                      gh api -X DELETE repos/${{ github.repository }}/git/refs/heads/$BRANCH
+                      gh api -X DELETE repos/${{ github.repository }}/git/refs/heads/dev-build
                   fi
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
