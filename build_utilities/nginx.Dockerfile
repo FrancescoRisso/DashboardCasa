@@ -8,7 +8,7 @@ ENV SSL_key=$SSL_key
 ARG SSL_pem=" "
 ENV SSL_pem=$SSL_pem
 
-ARG GUNICORN_ADDR="gunicorn"
+ARG GUNICORN_ADDR=" "
 ENV GUNICORN_ADDR=$GUNICORN_ADDR
 
 COPY ./nginx.conf /etc/nginx/nginx.conf

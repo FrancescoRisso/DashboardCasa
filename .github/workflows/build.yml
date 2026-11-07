@@ -98,9 +98,11 @@ jobs:
                   if [[ $GITHUB_REF_NAME == 'code' ]]; then
                       echo "DOCKER_HUB_TAG=latest" >> "$GITHUB_ENV"
                       echo "BUILD_BRANCH=build" >> "$GITHUB_ENV"
+                      echo "GUNICORN_ADDR=gunicorn" >> "$GITHUB_ENV"
                   else
                       echo "DOCKER_HUB_TAG=test" >> "$GITHUB_ENV"
                       echo "BUILD_BRANCH=dev-build" >> "$GITHUB_ENV"
+                      echo "GUNICORN_ADDR=gunicorn-test" >> "$GITHUB_ENV"
                   fi
 
             - name: DEBUG
@@ -129,6 +131,7 @@ jobs:
                   context: .
                   file: ./nginx.Dockerfile
                   push: true
+                  build-args: GUNICORN_ADDR = ${{ env.GUNICORN_ADDR }}
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_nginx:${{ env.DOCKER_HUB_TAG }}
                   cache-from: type=registry,ref=francescorisso/dashboard_casa_nginx:${{ env.DOCKER_HUB_TAG }}
                   cache-to: type=inline
