@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: gunicorn-test
+spec:
+    selector:
+        matchLabels:
+            app: gunicorn-test
+    template:
+        metadata:
+            labels:
+                app: gunicorn-test
+        spec:
+            containers:
+                - name: gunicorn-test
+                  image: francescorisso/dashboard_casa_gunicorn:test
+                  imagePullPolicy: Always
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  ports:
+                      - containerPort: 8000
+                  volumeMounts:
+                      - mountPath: /server/SQLsettings
+                        name: sql-settings
+                      - mountPath: /server/schedules
+                        name: schedules
+                  env:
+                      - name: SQL_dialect
+                        value: "..."
+                      - name: SQL_username
+                        value: "..."
+                      - name: SQL_password
+                        value: "..."
+                      - name: SQL_host
+                        value: "..."
+                      - name: SQL_dbname
+                        value: "..."
+                      - name: CMI_username
+                        value: "..."
+                      - name: CMI_password
+                        value: "..."
+                      - name: TZ
+                        value: Europe/Rome
+                      - name: GUNICORN_ADDR
+                        value: "gunicorn-test"
+            volumes:
+                - name: sql-settings
+                  persistentVolumeClaim:
+                      claimName: dashobard-casa-gunicorn-settings-test
+                - name: schedules
+                  persistentVolumeClaim:
+                      claimName: dashobard-casa-gunicorn-schedules-test
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: gunicorn-test
+spec:
+    type: ClusterIP
+    selector:
+        app: gunicorn-test
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000

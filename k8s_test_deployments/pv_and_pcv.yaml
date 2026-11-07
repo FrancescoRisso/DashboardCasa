@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: dashobard-casa-gunicorn-settings-test
+spec:
+    capacity:
+        storage: 5Ki
+    accessModes:
+        - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    storageClassName: manual
+    hostPath:
+        path: "/mnt/dashboard-casa-test/gunicorn-settings"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: dashobard-casa-gunicorn-schedules-test
+spec:
+    capacity:
+        storage: 5Ki
+    accessModes:
+        - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    storageClassName: manual
+    hostPath:
+        path: "/mnt/dashboard-casa-test/server/schedules"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: dashobard-casa-gunicorn-settings-test
+spec:
+    storageClassName: manual
+    resources:
+        requests:
+            storage: 5Ki
+    accessModes:
+        - ReadWriteOnce
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: dashobard-casa-gunicorn-schedules-test
+spec:
+    storageClassName: manual
+    resources:
+        requests:
+            storage: 5Ki
+    accessModes:
+        - ReadWriteOnce
