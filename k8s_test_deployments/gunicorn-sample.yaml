@@ -5,11 +5,11 @@ metadata:
 spec:
     selector:
         matchLabels:
-            app: gunicorn
+            app: gunicorn-test
     template:
         metadata:
             labels:
-                app: gunicorn
+                app: gunicorn-test
         spec:
             containers:
                 - name: gunicorn-test

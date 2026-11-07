@@ -5,11 +5,11 @@ metadata:
 spec:
     selector:
         matchLabels:
-            app: webserver
+            app: webserver-test
     template:
         metadata:
             labels:
-                app: webserver
+                app: webserver-test
         spec:
             containers:
                 - name: webserver-test
@@ -36,7 +36,7 @@ metadata:
 spec:
     type: NodePort
     selector:
-        app: webserver
+        app: webserver-test
     ports:
         - protocol: TCP
           port: 8001
