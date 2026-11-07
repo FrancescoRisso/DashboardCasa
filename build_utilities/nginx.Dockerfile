@@ -24,4 +24,4 @@ COPY ./images /app/images
 
 EXPOSE 443
 
-ENTRYPOINT cat /etc/nginx/nginx.conf; mkdir -p /etc/ssl; echo "${SSL_key}" | sed 's/^ //' >> /etc/ssl/SSL_key.key; echo "${SSL_pem}" | sed 's/^ //' >> /etc/ssl/SSL_pem.pem; nginx -g "daemon off;"
+ENTRYPOINT mkdir -p /etc/ssl; echo "${SSL_key}" | sed 's/^ //' >> /etc/ssl/SSL_key.key; echo "${SSL_pem}" | sed 's/^ //' >> /etc/ssl/SSL_pem.pem; nginx -g "daemon off;"
