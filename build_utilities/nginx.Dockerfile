@@ -12,7 +12,7 @@ ARG GUNICORN_ADDR="gunicorn"
 ENV GUNICORN_ADDR=$GUNICORN_ADDR
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
-RUN sed -i 's@!!GUNICORN_ADDR!!@$GUNICORN_ADDR@'
+RUN sed -i "s@REPLACEME_WITH_GUNICORN_ADDR@$GUNICORN_ADDR@" /etc/nginx/nginx.conf
 
 COPY ./customServiceWorker.js /app/customServiceWorker.js
 COPY ./index.html /app/index.html
