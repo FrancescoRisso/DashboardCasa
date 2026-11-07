@@ -165,6 +165,8 @@ jobs:
                   file: ./gunicorn.Dockerfile
                   push: true
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_gunicorn:${{ env.DOCKER_HUB_TAG }}
+                  cache-from: type=registry,ref=user/app:${{ env.DOCKER_HUB_TAG }}
+                  cache-to: type=inline
 
     cleanDevBuildBranch:
         runs-on: ubuntu-latest

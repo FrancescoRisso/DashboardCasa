@@ -41,10 +41,10 @@ spec:
         - protocol: TCP
           port: 8001
           targetPort: 80
-          nodePort: 61081
+          nodePort: 31081
           name: http
         - protocol: TCP
           port: 8002
           targetPort: 443
-          nodePort: 61444
+          nodePort: 31444
           name: https

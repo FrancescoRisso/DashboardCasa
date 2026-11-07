@@ -11,16 +11,16 @@ ENV SSL_pem=$SSL_pem
 ARG GUNICORN_ADDR="gunicorn"
 ENV GUNICORN_ADDR=$GUNICORN_ADDR
 
-COPY ./images /app/images
-COPY ./static /app/static
-COPY ./asset-manifest.json /app/asset-manifest.json
+COPY ./nginx.conf /etc/nginx/nginx.conf
+RUN sed -i 's@!!GUNICORN_ADDR!!@$GUNICORN_ADDR@'
+
 COPY ./customServiceWorker.js /app/customServiceWorker.js
 COPY ./index.html /app/index.html
 COPY ./manifest.json /app/manifest.json
 COPY ./offline.html /app/offline.html
-
-# COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./nginx.conf.template /etc/nginx/templates/nginx.conf.template
+COPY ./asset-manifest.json /app/asset-manifest.json
+COPY ./static /app/static
+COPY ./images /app/images
 
 EXPOSE 443
 
