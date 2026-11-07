@@ -131,7 +131,7 @@ jobs:
                   context: .
                   file: ./nginx.Dockerfile
                   push: true
-                  build-args: GUNICORN_ADDR = ${{ env.GUNICORN_ADDR }}
+                  build-args: GUNICORN_ADDR=${{ env.GUNICORN_ADDR }}
                   tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dashboard_casa_nginx:${{ env.DOCKER_HUB_TAG }}
                   cache-from: type=registry,ref=francescorisso/dashboard_casa_nginx:${{ env.DOCKER_HUB_TAG }}
                   cache-to: type=inline
